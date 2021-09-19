@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:injector/injector.dart';
 import 'package:logbook/modules/screens/login_page.dart';
@@ -14,8 +15,8 @@ Future<void> main() async {
     url: 'https://thvrccvjpjymkdogdoyg.supabase.co',
     anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYzMTk3NTcxNCwiZXhwIjoxOTQ3NTUxNzE0fQ.VpWXp4kaShsjmhVTCT7SQyLgXDmy99b6W4VPc5K1eCY',
   );
-
   final supabase = SupabaseClient('https://thvrccvjpjymkdogdoyg.supabase.co', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYzMTk3NTcxNCwiZXhwIjoxOTQ3NTUxNzE0fQ.VpWXp4kaShsjmhVTCT7SQyLgXDmy99b6W4VPc5K1eCY");
+  final firebase = Firebase.initializeApp();
 
   Injector.appInstance.registerSingleton<SupabaseClient>(() => supabase);
 
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: MainColors.black,
       ),
-      home: SplashPage(),
+      home: LoginPage(),
       routes: routes,
     );
   }

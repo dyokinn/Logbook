@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injector/injector.dart';
 import 'package:supabase/supabase.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -8,27 +9,33 @@ class LoginController{
   late final supabase = Injector.appInstance.get<SupabaseClient>();
 
 
-  Future<void> userAlreadyLogged(BuildContext context) async {
-
-    final profile = supabase.auth.user();
-
-    profile == null
-    ?  Navigator.pushReplacementNamed(context, "/login")
-    :  Navigator.pushReplacementNamed(context, "/home");
+  void userAlreadyLogged(BuildContext context) async {
+    //Navigator.pushReplacementNamed(context, "/login");
   }
 
   Future<void> handleLogin() async {
-    final response = await supabase.auth.signInWithProvider(
-      Provider.google,
-    );
+    GoogleSignIn _googleSignIn = GoogleSignIn(
+        scopes: [
+          'email'
+        ],
+      );
+    
+    try {
+      final user = await _googleSignIn.signIn();
 
-    if (response.error? != null) {
-      // Error
-      print('Error: ${response.error?.message}');
+      final response = await supabase
+                        .from("users")
+                        .select()
+                        .execute();
+    
+      print("ABAIXO");
+      print(response.data);
+    
     } 
-    else {
-      // Success
-      print(response.data?)
+    
+    catch (error) {
+      print(error);
     }
   }
+
 }
