@@ -1,35 +1,56 @@
 import 'package:flutter/material.dart';
-import 'package:logbook/shared/providers/user_provider.dart';
+import 'package:logbook/modules/tabs/goals_tab.dart';
+import 'package:logbook/modules/tabs/logs_tab.dart';
+import 'package:logbook/modules/widgets/app_drawer.dart';
 import 'package:logbook/shared/theme/main_colors.dart';
-import 'package:logbook/shared/theme/text_styles.dart';
-import 'package:provider/src/provider.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  const HomePage({ Key? key }) : super(key: key);
+
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin{
+
+  late TabController tabController = TabController(length: 2, vsync: this);
+
+  List<Tab>tabIcons = [
+    Tab(
+      icon: Icon(Icons.library_books),
+      text: "Diário de Bordo",
+    ),
+    Tab(
+      icon: Icon(Icons.map),
+      text: "Tesouros",
+    ),
+  ];
+
+  List<Widget> tabPages = [
+    LogsTab(),
+    GoalsTab()
+  ];
 
   @override
   Widget build(BuildContext context) {
-
-    final state = context.watch<userState>();
-
     return Scaffold(
-      backgroundColor: MainColors.blue,
-      body: Container(
-        height: 700,
-        alignment: Alignment.center,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.network(state.userInfo["photo"]),
-            Text("Logou", style: TextStyles.title),
-            Text(state.userInfo["email"], style: TextStyles.text),
-            Text(state.userStats["mental"].toString(), style: TextStyles.text),
-            ElevatedButton(
-              child: Text("aoo"),
-              onPressed: () => state.setUserInfoField("email", "Fábio Almeida"),
-            )
-          ],
+      appBar: AppBar(
+        title: Text("Logbook"),
+        backgroundColor: MainColors.gray,
+      ),
+      backgroundColor: MainColors.black,
+      drawer: AppDrawer(),
+      body: TabBarView(
+        controller: tabController,
+        children: tabPages,
+      ),
+      bottomNavigationBar: Container(
+        child: TabBar(
+          tabs: tabIcons,
+          controller: tabController,
+          indicatorColor: MainColors.blue,
         ),
-      )
+      ),
     );
   }
 }
