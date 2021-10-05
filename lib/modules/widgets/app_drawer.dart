@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:logbook/shared/providers/user_provider.dart';
 import 'package:logbook/shared/theme/main_colors.dart';
+import 'package:logbook/shared/theme/text_styles.dart';
 import 'package:provider/src/provider.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -13,15 +14,11 @@ class AppDrawer extends StatelessWidget {
     final state = context.read<userState>();
 
     return Drawer(
-      child: Scaffold(
-        backgroundColor: MainColors.black, 
-        floatingActionButton: ElevatedButton(
-          child: Icon(Icons.drive_file_rename_outline_sharp),
-          onPressed: () => print("aoo"),
-        ),
-        body: Column(
+      child: Container(
+        color: MainColors.black, 
+        child: Column(
           children: [
-            Image.network(state.userInfo["photo"]),
+            Text(state.userInfo["name"], style: TextStyles.text),
           ],
         ),
     )
