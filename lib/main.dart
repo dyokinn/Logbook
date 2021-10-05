@@ -1,8 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:injector/injector.dart';
-import 'package:logbook/modules/screens/login_page.dart';
 import 'package:logbook/routes.dart';
+import 'package:logbook/shared/providers/user_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:supabase/supabase.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:logbook/modules/screens/splash_page.dart';
@@ -29,13 +30,18 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Logbook',
-      theme: ThemeData(
-        primaryColor: MainColors.black,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider.value(value: userState())
+      ],
+      child: MaterialApp(
+        title: 'Logbook',
+        theme: ThemeData(
+          primaryColor: MainColors.black,
+        ),
+        home: SplashPage(),
+        routes: routes,
       ),
-      home: LoginPage(),
-      routes: routes,
     );
   }
 }

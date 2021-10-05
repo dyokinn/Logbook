@@ -1,15 +1,14 @@
-import 'dart:ffi';
-
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class userState extends ChangeNotifier{
    Map<String, dynamic> _userInfo = {
     "id": 0,
+    "name": "",
     "email": "",
     "photo": ""
   };
 
-  Map<String, double> _userStats = {
+  Map<String, dynamic> _userStats = {
     "mental": 5/10,
     "physical": 5/10,
     "professional": 5/10,
@@ -24,9 +23,16 @@ class userState extends ChangeNotifier{
   // Setters
   void setUserInfo(Map<String, dynamic> userInfo){
     _userInfo = userInfo;
+    notifyListeners();
   }
 
-  void setUserStats(Map<String, double> userStats){
+  void setUserInfoField(String field, dynamic value){
+    _userInfo[field] = value;
+    notifyListeners();
+  }
+
+  void setUserStats(Map<String, dynamic> userStats){
     _userStats= userStats;
+    notifyListeners();
   }
 }
