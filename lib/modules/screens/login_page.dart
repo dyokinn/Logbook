@@ -8,7 +8,7 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Puxando o tamanho da tela
+  // Puxando o tamanho da tela
     final size = MediaQuery.of(context).size;
 
     final LoginController loginController = LoginController();
@@ -36,7 +36,7 @@ class LoginPage extends StatelessWidget {
 
                 child: ElevatedButton(
                   child: Text("Login com o Google"),
-                  onPressed: () => loginController.handleLogin(context),
+                  onPressed: loginController.handleLogin,
                   style: ElevatedButton.styleFrom(
                     primary: MainColors.gray,
                     textStyle: TextStyles.text, 
