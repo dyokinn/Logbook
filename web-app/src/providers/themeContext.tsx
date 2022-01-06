@@ -26,7 +26,7 @@ export const ThemeContextProvider = (props:any) => {
     let info = {
         dark:{
             main : "#0D1117",
-            second : "#2A2F32",
+            second : "#273035",
             blue : "#1db0d6",
             green : "#26E68A",
             red : "#ff5757",
@@ -34,8 +34,8 @@ export const ThemeContextProvider = (props:any) => {
         },
         light:{
             main : "#fafafa",
-            second : "#d4d4d4",
-            blue : "#1db0d6",
+            second : "#4a78bd",
+            blue : "#1d6dd6",
             green : "#26E68A",
             red : "#ff5757",
             text: "#1a1a1a"

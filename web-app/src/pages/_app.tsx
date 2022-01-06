@@ -1,7 +1,7 @@
-import  {useState, useMemo} from 'react';
+import Head from 'next/head'
 import type { AppProps } from 'next/app'
 import { SessionProvider } from "next-auth/react"
-import Head from 'next/head'
+import { ChakraProvider } from '@chakra-ui/react'
 import {ThemeContextProvider} from '../providers/themeContext'
 
 function MyApp({ Component, pageProps:{session, ...pageProps} }:AppProps) {
@@ -15,9 +15,11 @@ function MyApp({ Component, pageProps:{session, ...pageProps} }:AppProps) {
         </Head>
 
         <ThemeContextProvider>
-            <SessionProvider session={session}>
-                    <Component {...pageProps} />
-            </SessionProvider>
+            <ChakraProvider>
+                <SessionProvider session={session}>
+                        <Component {...pageProps} />
+                </SessionProvider>
+            </ChakraProvider>
         </ThemeContextProvider>
     </>  
   )
