@@ -32,17 +32,18 @@ const Home: NextPage = () => {
             <Card 
                 icon={FiStar}
                 headline='Simples'
-                text='Intuitivo e efetivo'
+                text='Intuitivo e efetivo, feito sob medida para facilitar seu uso e acompanhamento.'
             />
             <Card 
                 icon={FiLock}
                 headline='Seguro'
-                text='sds'
+                text='Nos comprometemos com a segurança dos seus relatos e não guardamos nenhum tipo de informação
+                sensível da sua conta'
             />
             <Card 
                 icon={FiBook}
                 headline='Eficiente'
-                text='fdsdf'
+                text='Guarde quantos registros quiser no seu histórico. É de graça!'
             />
         </Flex>
     </Flex>

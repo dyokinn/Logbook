@@ -3,13 +3,16 @@ import type { NextPage } from 'next'
 import ship from '../../public/images/navio.jpg'
 import Image from 'next/image'
 import Aside from '../../components/app/aside/aside'
+import { useTheme } from '../../hooks/useTheme'
 
 const Home: NextPage = () => {
-  return (
-    <Box backgroundColor="dark.black" w="100vw">
-        <Aside/>
-    </Box>
-  )
+    const {mode, theme, setModeOpt} = useTheme()
+    
+    return (
+        <Box backgroundColor={theme.second} h={"100vh"} w={"100vw"}>
+            <Aside/>
+        </Box>
+    )
 }
 
 export default Home
