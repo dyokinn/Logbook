@@ -29,6 +29,8 @@ model Log {
   physical     Float
   professional Float
   social       Float
+  lat          Decimal
+  long         Decimal
   userId       Int
 
   // Relations
@@ -40,10 +42,7 @@ model Goal {
   title        String
   description  String
   notes        String
-  mental       Float
-  physical     Float
-  professional Float
-  social       Float
+  type         String
   isComplete   Boolean   @default(false)
   createdAt    DateTime  @default(now())
   completedAt  DateTime?
@@ -51,16 +50,5 @@ model Goal {
 
   // Relations
   user  User   @relation(fields: [userId], references: [id])
-  steps Step[]
 }
 
-model Step {
-  id          Int     @id @default(autoincrement())
-  title       String
-  description String
-  isComplete  Boolean
-  goalId      Int
-
-  // Relations
-  goal Goal @relation(fields: [goalId], references: [id])
-}
