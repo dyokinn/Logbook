@@ -2,7 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:injector/injector.dart';
 import 'package:logbook/routes.dart';
-import 'package:logbook/shared/providers/user_provider.dart';
+import 'package:logbook/shared/providers/login_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase/supabase.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider.value(value: userState())
+        ChangeNotifierProvider.value(value: LoginProvider())
       ],
       child: MaterialApp(
         title: 'Logbook',

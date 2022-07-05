@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:logbook/shared/controllers/login_controller.dart';
+import 'package:logbook/shared/providers/login_provider.dart';
 import 'package:logbook/shared/theme/main_colors.dart';
+import 'package:provider/provider.dart';
 
 class SplashPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
 
-    final LoginController loginController = LoginController();
+    final LoginProvider loginProvider = context.read<LoginProvider>();
     
-    loginController.userAlreadyLogged(context);
+    loginProvider.userAlreadyLogged(context);
 
     return Scaffold(
       backgroundColor: MainColors.black,

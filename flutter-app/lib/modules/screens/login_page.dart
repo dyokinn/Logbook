@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:logbook/shared/controllers/login_controller.dart';
 import 'package:logbook/shared/theme/main_colors.dart';
 import 'package:logbook/shared/theme/text_styles.dart';
+import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
+import '../../shared/providers/login_provider.dart';
 
 class LoginPage extends StatelessWidget {
 
@@ -11,7 +13,7 @@ class LoginPage extends StatelessWidget {
     // Puxando o tamanho da tela
     final size = MediaQuery.of(context).size;
 
-    final LoginController loginController = LoginController();
+    final LoginProvider loginProvider = context.read<LoginProvider>();
     
     return Scaffold(
       backgroundColor: MainColors.black,
@@ -36,7 +38,7 @@ class LoginPage extends StatelessWidget {
 
                 child: ElevatedButton(
                   child: Text("Login com o Google"),
-                  onPressed: () => loginController.handleLogin(context),
+                  onPressed: () async  {await loginProvider.handleLogin(context);},
                   style: ElevatedButton.styleFrom(
                     primary: MainColors.gray,
                     textStyle: TextStyles.text, 
