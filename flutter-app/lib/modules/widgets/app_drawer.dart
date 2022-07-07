@@ -21,20 +21,35 @@ class AppDrawer extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.network(loginProvider.photo),
-            Text(loginProvider.name, style: TextStyles.text),
-            ElevatedButton(
-                  child: Text("Login com o Google"),
-                  onPressed: () async  {await loginProvider.handleLogout(context);},
-                  style: ElevatedButton.styleFrom(
-                    primary: MainColors.gray,
-                    textStyle: TextStyles.text, 
-                    fixedSize: Size(
-                      size.width * 0.6,
-                      size.height * 0.08
+            Column(
+              children: [
+                 Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                      image: NetworkImage(loginProvider.photo),
+                      fit: BoxFit.fill
                     )
                   ),
+                ), 
+                Text(loginProvider.name, style: TextStyles.drawer),
+              ],
+            ),
+            Container(
+              height: size.height * 0.07,
+              width: size.width * 0.5,
+              decoration: const BoxDecoration(
+                color: MainColors.red,
+                borderRadius: BorderRadius.all(Radius.circular(10))
+              ),
+              child: Center(
+                child: ListTile(
+                  title: Text("Desembarcar", style: TextStyles.drawer),
+                  onTap: () async  {await loginProvider.handleLogout(context);},
+                  trailing: const Icon(Icons.logout, color: MainColors.gray),
                 ),
+              ),
+            )
           ],
         ),
     )

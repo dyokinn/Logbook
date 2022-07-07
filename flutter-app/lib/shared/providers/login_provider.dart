@@ -1,15 +1,15 @@
 import 'dart:convert';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:injector/injector.dart';
-import 'package:logbook/shared/api/api.dart';
+import 'package:logbook/shared/providers/logs_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase/supabase.dart';
 import 'package:provider/provider.dart';
 
 
 class LoginProvider extends ChangeNotifier{
-  int id = 0;
+  String googleId = "";
   String name = "";
   String email = "";
   String photo = "";
@@ -19,9 +19,12 @@ class LoginProvider extends ChangeNotifier{
   var professional = 5/10;
   var social = 5/10;
 
+  final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
+
   // Setters
   void setUserInfoFromMap(Map<String, dynamic> userInfo){
-    id = userInfo["id"];
+    googleId = userInfo["id"];
     name = userInfo["name"];
     email = userInfo["email"];
     photo = userInfo["photo"];
@@ -44,8 +47,14 @@ class LoginProvider extends ChangeNotifier{
 
     if (prefs.containsKey("userInfo") && prefs.containsKey("userStats")){
       final userProvider = context.read<LoginProvider>();
+      final logsProvider = context.read<LogsProvider>();
+
       userProvider.setUserInfoFromMap(jsonDecode(await prefs.getString("userInfo") as String));
       userProvider.setUserStatsFromMap(jsonDecode(await prefs.getString("userStats") as String));
+
+      // Seta as logs iniciais daquele usuário
+      await logsProvider.updateLogList(googleId);
+
       Navigator.pushReplacementNamed(context, "/home");
     }
 
@@ -65,90 +74,53 @@ class LoginProvider extends ChangeNotifier{
     try {
       // Tenta logar com o Google
       final googleUser = await _googleSignIn.signIn();
-      var googleId = await googleUser!.authentication.then((value) => value.idToken);
+      GoogleSignInAuthentication googleSignInAuthentication = await googleUser!.authentication;
 
-      // Verifica se o usuário autenticado já existe no banco
-      try{
-        final accountFromDb = await Api.dio.get("/users/login", 
-          queryParameters: {
-          "key": googleId
-          }
-        );
+      AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleSignInAuthentication.accessToken,
+        idToken: googleSignInAuthentication.idToken,
+      );
 
-        final prefs = await SharedPreferences.getInstance();
-        final userProvider = context.read<LoginProvider>();
+      UserCredential fullCredentials = await firebaseAuth.signInWithCredential(credential);
+      print("chegou");
+      var googleId = fullCredentials.user!.uid;
 
-        Map<String, dynamic> userInfo = {
-          "id": accountFromDb.data["id"],
-          "name": googleUser.displayName,
-          "email": googleUser.email,
-          "photo": googleUser.photoUrl
-        };
+      final prefs = await SharedPreferences.getInstance();
+      final userProvider = context.read<LoginProvider>();
+      final logsProvider = context.read<LogsProvider>();
 
-        Map<String, double> userStats = {
-          "mental": 5/10,
-          "physical": 5/10,
-          "professional": 5/10,
-          "social": 5/10
-        };
+      Map<String, dynamic> userInfo = {
+        "id": googleId,
+        "name": googleUser.displayName,
+        "email": googleUser.email,
+        "photo": googleUser.photoUrl
+      };
 
-        userProvider.setUserInfoFromMap(userInfo);
-        userProvider.setUserStatsFromMap(userStats);
+      Map<String, double> userStats = {
+        "mental": 5/10,
+        "physical": 5/10,
+        "professional": 5/10,
+        "social": 5/10
+      };
 
-        // Salva nas Shared Preferences
-        await prefs.setString("userInfo", jsonEncode(userInfo));
-        await prefs.setString("userStats", jsonEncode(userStats));
+      userProvider.setUserInfoFromMap(userInfo);
+      userProvider.setUserStatsFromMap(userStats);
 
-        Navigator.pushReplacementNamed(context, "/home");
+      // Salva nas Shared Preferences
+      await prefs.setString("userInfo", jsonEncode(userInfo));
+      await prefs.setString("userStats", jsonEncode(userStats));
+
+      // Seta as logs iniciais daquele usuário
+      await logsProvider.updateLogList(googleId);
+      print(googleId);
+      Navigator.pushReplacementNamed(context, "/home");
       
+      } catch(e){
+        print(e);
       }
       
       // Se não existir no banco
-      catch(e){
-        print("n existe no banco");
-        try{
-          final created = await Api.dio.post("/users/create",
-            data: {
-              "googleId": googleId
-            }
-          );
-          print("chegou");
-
-          // Salva no Provider
-          final prefs = await SharedPreferences.getInstance();
-          final userProvider = context.read<LoginProvider>();
-
-          Map<String, dynamic> userInfo = {
-            "id": created.data["id"],
-            "name": googleUser.displayName,
-            "email": googleUser.email,
-            "photo": googleUser.photoUrl
-          };
-
-          Map<String, double> userStats = {
-            "mental": 5/10,
-            "physical": 5/10,
-            "professional": 5/10,
-            "social": 5/10
-          };
-
-          userProvider.setUserInfoFromMap(userInfo);
-          userProvider.setUserStatsFromMap(userStats);
-
-          // Salva nas Shared Preferences
-          await prefs.setString("userInfo", jsonEncode(userInfo));
-          await prefs.setString("userStats", jsonEncode(userStats));
-          Navigator.pushReplacementNamed(context, "/home");
-
-        }
-        catch (error) {
-          print(error);
-        }
-
-      }}
-      catch (error) {
-          print(error);
-        }}  
+      }  
   
   Future<void> handleLogout(BuildContext context) async {
     GoogleSignIn _googleSignIn = GoogleSignIn(

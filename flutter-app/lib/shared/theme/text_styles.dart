@@ -10,14 +10,20 @@ class TextStyles {
   );
 
   static final heading = GoogleFonts.poppins(
-    fontSize: 24,
-    fontWeight: FontWeight.w600,
+    fontSize: 18,
+    fontWeight: FontWeight.w700,
     color: Colors.white70,
   );
 
   static final text = GoogleFonts.poppins(
-    fontSize: 18,
-    fontWeight: FontWeight.w500,
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
     color: Colors.white60
+  );
+
+  static final drawer = GoogleFonts.poppins(
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    color: Colors.white70
   );
 }

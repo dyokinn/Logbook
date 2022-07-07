@@ -9,8 +9,9 @@ class SplashPage extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final LoginProvider loginProvider = context.read<LoginProvider>();
-    
-    loginProvider.userAlreadyLogged(context);
+    Future.delayed(const Duration(seconds: 1), () {
+      loginProvider.userAlreadyLogged(context);
+    });
 
     return Scaffold(
       backgroundColor: MainColors.black,

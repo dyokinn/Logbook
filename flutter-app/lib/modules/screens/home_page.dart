@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:logbook/modules/tabs/goals_tab.dart';
-import 'package:logbook/modules/tabs/logs_tab.dart';
+import 'package:logbook/modules/screens/tabs/goals_tab.dart';
+import 'package:logbook/modules/screens/tabs/logs_tab.dart';
+
 import 'package:logbook/modules/widgets/app_drawer.dart';
 import 'package:logbook/shared/theme/main_colors.dart';
 

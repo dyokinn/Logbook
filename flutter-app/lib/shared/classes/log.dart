@@ -5,20 +5,22 @@ part'log.g.dart';
 
 @JsonSerializable()
 class Log{
-  int id;
+  int? id;
   String title;
   String text;
   DateTime created_at;
+  DateTime? completed_at;
   double mental;
   double physical;
   double social;
   double professional;
 
   Log({
-    required this.id,
+    this.id,
     required this.title,
     required this.text,
     required this.created_at,
+    this.completed_at,
     required this.mental,
     required this.physical,
     required this.social,
