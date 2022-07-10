@@ -25,7 +25,7 @@ class CustomButton extends StatelessWidget {
       child: Text(text!),
       style: ElevatedButton.styleFrom(
         fixedSize: size,
-        primary: MainColors.black
+        primary: MainColors.green
       ),
       )
     : ElevatedButton(
@@ -33,7 +33,7 @@ class CustomButton extends StatelessWidget {
       child: Icon(icon),
       style: ElevatedButton.styleFrom(
         fixedSize: size,
-        primary: MainColors.black
+        primary: MainColors.green
       ),
     );
   }

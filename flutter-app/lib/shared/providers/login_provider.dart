@@ -14,15 +14,70 @@ class LoginProvider extends ChangeNotifier{
   String email = "";
   String photo = "";
 
-  var mental = 5/10;
-  var physical = 5/10;
-  var professional = 5/10;
-  var social = 5/10;
+  var mental = 5;
+  var physical = 5;
+  var professional = 5;
+  var social = 5;
 
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
 
   // Setters
+
+  void incrementStat(String statName) {
+    switch (statName) {
+      case "mental":
+        if(mental < 10){
+          mental += 1;
+        }
+        break;
+      case "social":
+        if(social < 10){
+          social += 1;
+        }
+      break;
+      case "professional":
+      if(professional < 10){
+        professional += 1;
+      }
+      break;
+      case "physical":
+      if(physical < 10){
+        physical += 1;
+      }
+      break;
+      default:
+    }
+    notifyListeners();
+  }
+
+  void decrementStat(String statName) {
+    switch (statName) {
+      case "mental":
+        if(mental > 0){
+          mental -= 1;
+        }
+        break;
+      case "social":
+        if(social > 0){
+          social -= 1;
+        }
+      break;
+      case "professional":
+      if(professional > 0){
+        professional -= 1;
+      }
+      break;
+      case "physical":
+      if(physical > 0){
+        physical -= 1;
+      }
+      break;
+      default:
+    }
+    notifyListeners();
+  }
+
   void setUserInfoFromMap(Map<String, dynamic> userInfo){
     googleId = userInfo["id"];
     name = userInfo["name"];
@@ -96,11 +151,11 @@ class LoginProvider extends ChangeNotifier{
         "photo": googleUser.photoUrl
       };
 
-      Map<String, double> userStats = {
-        "mental": 5/10,
-        "physical": 5/10,
-        "professional": 5/10,
-        "social": 5/10
+      Map<String, int> userStats = {
+        "mental": 5,
+        "physical": 5,
+        "professional": 5,
+        "social": 5
       };
 
       userProvider.setUserInfoFromMap(userInfo);

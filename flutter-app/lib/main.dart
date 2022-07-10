@@ -34,6 +34,7 @@ class MyApp extends StatelessWidget {
           primaryColor: MainColors.black,
         ),
         home: SplashPage(),
+        debugShowCheckedModeBanner: false,
         routes: routes,
       ),
     );

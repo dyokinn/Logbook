@@ -23,7 +23,9 @@ dependencies:
   shared_preferences: ^2.0.8
   provider: ^6.0.1
   json_annotation: ^4.1.0
-  animated_radial_menu: ^0.0.1
+  geocoding: ^2.0.4
+  geolocator: ^8.2.1
+  flutter_map: ^0.14.0
 
 dev_dependencies:
   json_serializable: ^5.0.2

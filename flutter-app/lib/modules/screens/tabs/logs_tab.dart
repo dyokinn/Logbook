@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:logbook/modules/screens/create_log.dart';
 import 'package:logbook/modules/widgets/log_preview.dart';
 import 'package:logbook/shared/classes/log.dart';
 import 'package:logbook/shared/providers/login_provider.dart';
@@ -26,12 +27,14 @@ class _LogsTabState extends State<LogsTab> {
 
     return Scaffold(
       backgroundColor: MainColors.black,
-      floatingActionButton: ElevatedButton(
+      floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: () => Navigator.pushNamed(context, "/create-log"),
-        style: ElevatedButton.styleFrom(
-          primary: MainColors.blue
-        ),
+        onPressed: () => Navigator.push(context, PageRouteBuilder(
+          pageBuilder: (context, __, ___) => CreateLog(), 
+          transitionDuration: Duration(seconds: 1),
+        )),
+        backgroundColor: MainColors.blue,
+        heroTag: "create-log",
       ),
       body: SizedBox(
         width: size.width,

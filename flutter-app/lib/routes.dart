@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:logbook/modules/screens/create_log.dart';
 import 'package:logbook/modules/screens/home_page.dart';
+import 'package:logbook/modules/screens/log_view.dart';
 import 'package:logbook/modules/screens/login_page.dart';
 import 'package:logbook/modules/screens/splash_page.dart';
 
@@ -9,5 +10,6 @@ Map<String, WidgetBuilder> routes = {
     "/home": (BuildContext context) => HomePage(),
     "/login": (BuildContext context) => LoginPage(),
     "/create-log": (BuildContext context) => CreateLog(),
+    "/log-view": (BuildContext context) => LogView(),
 
 };

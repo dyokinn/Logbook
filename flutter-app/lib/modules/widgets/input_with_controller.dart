@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:logbook/shared/theme/main_colors.dart';
 import 'package:logbook/shared/theme/text_styles.dart';
 
-class Input extends StatelessWidget {
+class InputWithController extends StatelessWidget {
   final String label;
-  final String? initialValue;
+  final TextEditingController? controller;
   final double height;
   final double width;
   final bool enabled;
   final Function(String)? onChanged;
   
-  const Input(
+  const InputWithController(
     {Key? key,
     required this.label,
-    this.initialValue = "",
+    required this.controller,
     required this.height,
     required this.width,
     this.enabled = true,
@@ -29,14 +29,14 @@ class Input extends StatelessWidget {
           child: TextFormField(
             minLines: null,
             maxLines: null,
-            style: TextStyles.fieldText,
             expands: true,
             onChanged: (String? newValue) {
                 onChanged!(newValue!);
               },
             enabled: enabled,
             textAlign: TextAlign.center,
-            initialValue: initialValue,
+            controller: controller,
+            style: TextStyles.fieldText,
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'Por favor, preencha este campo';
@@ -58,7 +58,7 @@ class Input extends StatelessWidget {
               label: Center(child: Text(label)),
               labelStyle: TextStyles.fieldText
           ),
-                ),
+        ),
       );
   }
 }

@@ -11,7 +11,7 @@ class AppDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final loginProvider = context.read<LoginProvider>();
+    final loginProvider = context.watch<LoginProvider>();
     final size = MediaQuery.of(context).size;
 
     return Drawer(
@@ -23,17 +23,139 @@ class AppDrawer extends StatelessWidget {
           children: [
             Column(
               children: [
-                 Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                      image: NetworkImage(loginProvider.photo),
-                      fit: BoxFit.fill
-                    )
-                  ),
-                ), 
+                 Padding(
+                   padding: const EdgeInsets.only(bottom: 5.0),
+                   child: CircleAvatar(
+                    backgroundImage: NetworkImage(loginProvider.photo),
+                    radius: 40,
+                   ),
+                 ),
                 Text(loginProvider.name, style: TextStyles.drawer),
               ],
+            ),
+            SizedBox(
+              height: size.height * 0.05,
+              width: size.width * 0.7,
+              child: Center(
+                child: ListTile(
+                  title: Padding(
+                    padding: const EdgeInsets.only(bottom: 15.0),
+                    child: Text("Mental", textAlign: TextAlign.center, style: TextStyles.drawer),
+                  ),
+                  subtitle: Text(loginProvider.mental.toString(),textAlign: TextAlign.center , style: TextStyles.text,),
+                  leading: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      GestureDetector(
+                        child: Icon(Icons.remove,color: MainColors.green, size: 30,),
+                        onTap: () => loginProvider.decrementStat("mental"),
+                      ),
+                    ],
+                  ),
+                  trailing: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      GestureDetector(
+                        child: Icon(Icons.add, color: MainColors.green, size: 30),
+                        onTap: () => loginProvider.incrementStat("mental"),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: size.height * 0.05,
+              width: size.width * 0.7,
+              child: Center(
+                child: ListTile(
+                  title: Padding(
+                    padding: const EdgeInsets.only(bottom: 15.0),
+                    child: Text("Social", textAlign: TextAlign.center, style: TextStyles.drawer),
+                  ),
+                  subtitle: Text(loginProvider.social.toString(),textAlign: TextAlign.center , style: TextStyles.text,),
+                  leading: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      GestureDetector(
+                        child: Icon(Icons.remove,color: MainColors.green, size: 30,),
+                        onTap: () => loginProvider.decrementStat("social"),
+                      ),
+                    ],
+                  ),
+                  trailing: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      GestureDetector(
+                        child: Icon(Icons.add, color: MainColors.green, size: 30),
+                        onTap: () => loginProvider.incrementStat("social"),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: size.height * 0.05,
+              width: size.width * 0.7,
+              child: Center(
+                child: ListTile(
+                  title: Padding(
+                    padding: const EdgeInsets.only(bottom: 15.0),
+                    child: Text("Profissional", textAlign: TextAlign.center, style: TextStyles.drawer),
+                  ),
+                  subtitle: Text(loginProvider.professional.toString(),textAlign: TextAlign.center , style: TextStyles.text,),
+                  leading: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      GestureDetector(
+                        child: Icon(Icons.remove,color: MainColors.green, size: 30,),
+                        onTap: () => loginProvider.decrementStat("professional"),
+                      ),
+                    ],
+                  ),
+                  trailing: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      GestureDetector(
+                        child: Icon(Icons.add, color: MainColors.green, size: 30),
+                        onTap: () => loginProvider.incrementStat("professional"),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: size.height * 0.05,
+              width: size.width * 0.7,
+              child: Center(
+                child: ListTile(
+                  title: Padding(
+                    padding: const EdgeInsets.only(bottom: 15.0),
+                    child: Text("Físico (Corporal)", textAlign: TextAlign.center, style: TextStyles.drawer),
+                  ),
+                  subtitle: Text(loginProvider.physical.toString(),textAlign: TextAlign.center , style: TextStyles.text,),
+                  leading: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      GestureDetector(
+                        child: Icon(Icons.remove,color: MainColors.green, size: 30,),
+                        onTap: () => loginProvider.decrementStat("physical"),
+                      ),
+                    ],
+                  ),
+                  trailing: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      GestureDetector(
+                        child: Icon(Icons.add, color: MainColors.green, size: 30),
+                        onTap: () => loginProvider.incrementStat("physical"),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ),
             Container(
               height: size.height * 0.07,

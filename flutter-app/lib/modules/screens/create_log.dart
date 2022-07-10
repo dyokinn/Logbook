@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:logbook/modules/screens/home_page.dart';
+import 'package:logbook/modules/widgets/app_bar_with_back.dart';
 import 'package:logbook/modules/widgets/app_drawer.dart';
 import 'package:logbook/modules/widgets/custom_button.dart';
 import 'package:logbook/modules/widgets/input.dart';
+import 'package:logbook/modules/widgets/input_with_controller.dart';
 import 'package:logbook/shared/classes/log.dart';
 import 'package:logbook/shared/providers/login_provider.dart';
 import 'package:logbook/shared/providers/logs_provider.dart';
 import 'package:logbook/shared/theme/main_colors.dart';
+import 'package:logbook/shared/theme/text_styles.dart';
 import 'package:provider/provider.dart';
+import 'package:geolocator/geolocator.dart';
 
 class CreateLog extends StatefulWidget {
   const CreateLog({ Key? key }) : super(key: key);
@@ -24,36 +29,84 @@ class _CreateLogState extends State<CreateLog> {
   String? title;
   String? text;
   DateTime? created_at = DateTime.now();
+  bool isMemorable = false;
+  TextEditingController created_atText = TextEditingController();
   DateTime? completed_at;
   double? mental;
   double? physical;
   double? social;
   double? professional;
-  
+  late Position currentPosition;
+
+  Future getCurrentLocation() async {
+   var permission = await Geolocator.requestPermission();
+   bool isLocationServiceEnabled = await Geolocator.isLocationServiceEnabled();
+
+    if (!isLocationServiceEnabled){
+      showDialog<String>(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: Text("Localização Desabilitada!", style: TextStyles.heading,),
+          content: Text('lembre-se de ativar a localização no seu celular, almirante!', style: TextStyles.text),
+          backgroundColor: MainColors.gray,
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text("Entendi!")
+            ),
+          ],
+        ));
+        return;
+    }
+    Geolocator
+      .getCurrentPosition(desiredAccuracy: LocationAccuracy.best, forceAndroidLocationManager: true)
+      .then((Position position) {
+        print(position.latitude);
+        setState(() {
+          currentPosition = position;
+        });
+      }).catchError((e) {
+        print(e);
+      });
+  }
+
+  @override
+  void initState() {
+    setState(() {
+      created_atText.text = DateFormat('dd/MM/yyyy').format(created_at!);
+    });  
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
 
     LoginProvider loginProvider = context.read<LoginProvider>();
     LogsProvider logsProvider = context.read<LogsProvider>();
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Logbook"),
-        leading: GestureDetector(child: Icon(Icons.arrow_back), onTap: () => Navigator.pop(context)),
-        backgroundColor: MainColors.gray,
-      ),
-      backgroundColor: MainColors.black,
-      body: Container(
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Row(
-                children: [
-                  Input(
-                    height: 100,
-                    width: 250,
+    final size = MediaQuery.of(context).size;
+
+    getCurrentLocation();
+
+    return Hero(
+      tag: "create-log",
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        appBar: AppBarWithBack(pageToGo: HomePage()),
+        backgroundColor: MainColors.black,
+        body: Container(
+          width: size.width * 0.8,
+          margin: EdgeInsets.only(left: size.width * 0.1),
+          child: Form(
+            key: _formKey,
+            child: ListView(
+              shrinkWrap: true,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 30.0),
+                  child: Input(
+                    height: size.height * 0.1,
+                    width: size.width * 0.8,
                     label: "Nome do Registro",
                     onChanged: (value) {
                       setState(() {
@@ -61,17 +114,53 @@ class _CreateLogState extends State<CreateLog> {
                       });
                     },
                   ),
-                  Row(
+                ),
+                SizedBox(
+                  height: size.height * 0.1,
+                  width: size.width * 0.8,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Input(
-                        label: "", 
-                        height:100, 
-                        width: 250, 
+                      Theme(
+                        data: ThemeData(
+                        unselectedWidgetColor: MainColors.gray, // Your color
+                      ),
+                        child: Checkbox(value: isMemorable, activeColor: MainColors.green, onChanged: (value){
+                          setState(() {
+                            isMemorable = value!;
+                          });
+                        }),
+                      ),
+                      Text("É um registro memorável?", style: TextStyles.fieldText,),
+                    ],
+                  ),
+                ),
+                Input(
+                      label: "O que aconteceu, marujo?", 
+                      height: size.height * 0.35, 
+                      width: size.width * 0.8,
+                      onChanged: (value) {
+                        setState(() {
+                          text = value;
+                        });
+                      },
+                    ),
+                SizedBox(
+                  height: size.height * 0.2,
+                  width: size.width * 0.8,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      InputWithController( 
+                        label: "Data do Registro",
+                        height: size.height * 0.1,
+                        width: size.width * 0.54,
                         enabled: false, 
-                        initialValue: DateFormat('dd/MM/yyyy').format(created_at!)),
+                        controller: created_atText,
+                      ),
                       CustomButton(
                         icon: Icons.date_range,
-                        size: Size(40, 40),
+                        size: Size(size.width * 0.1, size.height * 0.05),
                         onPressed: ()async {
                           showDatePicker(
                                 context: context,
@@ -81,48 +170,48 @@ class _CreateLogState extends State<CreateLog> {
                             .then((date) {
                           setState(() {
                             created_at = date;
+                            created_atText.text =  DateFormat('dd/MM/yyyy').format(date!);
                           });
                         });
                         },
                       )
                     ],
                   ),
-                  
-                ],
-              ),
-              Input(
-                    label: "O que aconteceu, marujo?", 
-                    height: 300, 
-                    width: 400,
-                    onChanged: (value) {
-                      setState(() {
-                        text = value;
-                      });
-                    },
+                ),
+                SizedBox(
+                  height: size.height * 0.08,
+                  child: Center(
+                    child: CustomButton(
+                      icon: Icons.send,
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+
+                          Log log = Log(
+                            title: title!, 
+                            text: text!, 
+                            created_at: created_at!, 
+                            isMemorable: isMemorable,
+                            lat: currentPosition.latitude,
+                            long: currentPosition.longitude,
+                            mental: loginProvider.mental, 
+                            physical: loginProvider.mental, 
+                            social: loginProvider.mental, 
+                            professional: loginProvider.professional);
+                    
+                          await logsProvider.createLog(loginProvider.googleId, log);
+                          Navigator.pushReplacementNamed(context, "/home");
+                        }
+                    
+                      }, 
+                      size: Size(size.width * 0.5, size.height * 0.08)
+                    ),
                   ),
-                  CustomButton(
-                    onPressed: () async {
-                      if (_formKey.currentState!.validate()) {
-                        Log log = Log(
-                          title: title!, 
-                          text: text!, 
-                          created_at: created_at!, 
-                          mental: loginProvider.mental, 
-                          physical: loginProvider.mental, 
-                          social: loginProvider.mental, 
-                          professional: loginProvider.professional);
-
-                        await logsProvider.createLog(loginProvider.googleId, log);
-                        Navigator.pushReplacementNamed(context, "/home");
-                      }
-
-                    }, 
-                    size: Size(200, 250)
-                  )
-            ],
+                )
+              ],
+            ),
           ),
-        ),
-      )
+        )
+      ),
     );
   }
 }

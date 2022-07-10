@@ -3,6 +3,7 @@ import 'package:logbook/modules/screens/tabs/goals_tab.dart';
 import 'package:logbook/modules/screens/tabs/logs_tab.dart';
 
 import 'package:logbook/modules/widgets/app_drawer.dart';
+import 'package:logbook/modules/widgets/custom_app_bar.dart';
 import 'package:logbook/shared/theme/main_colors.dart';
 
 class HomePage extends StatefulWidget {
@@ -18,11 +19,11 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
   List<Tab>tabIcons = [
     Tab(
-      icon: Icon(Icons.library_books),
+      icon: Icon(Icons.library_books, color: MainColors.blue,),
       text: "Diário de Bordo",
     ),
     Tab(
-      icon: Icon(Icons.map),
+      icon: Icon(Icons.map, color: MainColors.blue,),
       text: "Tesouros",
     ),
   ];
@@ -35,10 +36,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Logbook"),
-        backgroundColor: MainColors.gray,
-      ),
+      appBar: CustomAppBar(),
       backgroundColor: MainColors.black,
       drawer: AppDrawer(),
       body: TabBarView(

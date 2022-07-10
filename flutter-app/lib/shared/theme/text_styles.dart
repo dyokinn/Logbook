@@ -21,6 +21,12 @@ class TextStyles {
     color: Colors.white60
   );
 
+  static final fieldText = GoogleFonts.poppins(
+    fontSize: 14,
+    fontWeight: FontWeight.w600,
+    color: Colors.white60
+  );
+
   static final drawer = GoogleFonts.poppins(
     fontSize: 16,
     fontWeight: FontWeight.w500,
