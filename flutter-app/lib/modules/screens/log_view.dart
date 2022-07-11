@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:logbook/modules/screens/home_page.dart';
 import 'package:logbook/modules/widgets/app_bar_with_back.dart';
+import 'package:logbook/shared/providers/goals_provider.dart';
 import 'package:logbook/shared/providers/login_provider.dart';
 import 'package:logbook/shared/providers/logs_provider.dart';
 import 'package:logbook/shared/theme/main_colors.dart';
@@ -31,7 +32,7 @@ class LogView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     LogsProvider logsProvider = context.watch<LogsProvider>();
-    LoginProvider loginProvider = context.watch<LoginProvider>();
+    GoalsProvider goalsProvider = context.watch<GoalsProvider>();
 
     final size = MediaQuery.of(context).size;
 
@@ -204,7 +205,16 @@ class LogView extends StatelessWidget {
                   ],
                 ),
               ),
-              Text("Metas", style: TextStyles.heading,)
+              Text("Metas", style: TextStyles.heading,),
+              goalsProvider.allGoals.isEmpty || goalsProvider.allGoals.where((goal) => goal!.created_at.isBefore(logsProvider.activeLog.created_at)).isEmpty
+              ? Text("Sem metas no período deste registro!", style: TextStyles.text,)
+              : ListView(
+                shrinkWrap: true,
+                children: goalsProvider.allGoals
+                .where((goal) => goal!.created_at.isBefore(logsProvider.activeLog.created_at))       
+                .map((filteredGoal) => Text(filteredGoal!.name, style: TextStyles.text,))
+                .toList()
+              )
             ],
           ),
         ),

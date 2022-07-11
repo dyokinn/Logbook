@@ -2,96 +2,46 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:logbook/modules/screens/home_page.dart';
 import 'package:logbook/modules/widgets/app_bar_with_back.dart';
-import 'package:logbook/modules/widgets/app_drawer.dart';
 import 'package:logbook/modules/widgets/custom_button.dart';
 import 'package:logbook/modules/widgets/input.dart';
 import 'package:logbook/modules/widgets/input_with_controller.dart';
-import 'package:logbook/shared/classes/log.dart';
+import 'package:logbook/shared/classes/goal.dart';
+import 'package:logbook/shared/providers/goals_provider.dart';
 import 'package:logbook/shared/providers/login_provider.dart';
 import 'package:logbook/shared/providers/logs_provider.dart';
 import 'package:logbook/shared/theme/main_colors.dart';
 import 'package:logbook/shared/theme/text_styles.dart';
 import 'package:provider/provider.dart';
-import 'package:geolocator/geolocator.dart';
 
-class CreateLog extends StatefulWidget {
-  const CreateLog({ Key? key }) : super(key: key);
+class CreateGoal extends StatefulWidget {
+  const CreateGoal({ Key? key }) : super(key: key);
 
   @override
-  State<CreateLog> createState() => _CreateLogState();
+  State<CreateGoal> createState() => _CreateGoalState();
 }
 
-class _CreateLogState extends State<CreateLog> {
-
+class _CreateGoalState extends State<CreateGoal> {
   final _formKey = GlobalKey<FormState>();
 
-  int? id;
-  String? title;
-  String? text;
-  DateTime? created_at = DateTime.now();
-  bool isMemorable = false;
+  String? name;
+  String? description;
+  DateTime? created_at;
   TextEditingController created_atText = TextEditingController();
+  bool isComplete = false;
   DateTime? completed_at;
-  double? mental;
-  double? physical;
-  double? social;
-  double? professional;
-  late Position currentPosition;
-
-  Future getCurrentLocation() async {
-   var permission = await Geolocator.requestPermission();
-   bool isLocationServiceEnabled = await Geolocator.isLocationServiceEnabled();
-
-    if (!isLocationServiceEnabled){
-      showDialog<String>(
-        context: context,
-        builder: (BuildContext context) => AlertDialog(
-          title: Text("Localização Desabilitada!", style: TextStyles.heading,),
-          content: Text('lembre-se de ativar a localização no seu celular, almirante!', style: TextStyles.text),
-          backgroundColor: MainColors.gray,
-          actions: <Widget>[
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text("Entendi!")
-            ),
-          ],
-        ));
-        return;
-    }
-    Geolocator
-      .getCurrentPosition(desiredAccuracy: LocationAccuracy.best, forceAndroidLocationManager: true)
-      .then((Position position) {
-        print(position.latitude);
-        setState(() {
-          currentPosition = position;
-        });
-      }).catchError((e) {
-        print(e);
-      });
-  }
-
-  @override
-  void initState() {
-    setState(() {
-      created_atText.text = DateFormat('dd/MM/yyyy').format(created_at!);
-    });  
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
 
     LoginProvider loginProvider = context.read<LoginProvider>();
-    LogsProvider logsProvider = context.read<LogsProvider>();
+    GoalsProvider goalsProvider = context.read<GoalsProvider>();
 
     final size = MediaQuery.of(context).size;
 
-    getCurrentLocation();
-
     return Hero(
       tag: "create",
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
         appBar: AppBarWithBack(pageToGo: HomePage()),
         backgroundColor: MainColors.black,
         body: Container(
@@ -107,10 +57,10 @@ class _CreateLogState extends State<CreateLog> {
                   child: Input(
                     height: size.height * 0.1,
                     width: size.width * 0.8,
-                    label: "Nome do Registro",
+                    label: "Nome da Meta",
                     onChanged: (value) {
                       setState(() {
-                        title = value;
+                        name = value;
                       });
                     },
                   ),
@@ -125,23 +75,23 @@ class _CreateLogState extends State<CreateLog> {
                         data: ThemeData(
                         unselectedWidgetColor: MainColors.gray, // Your color
                       ),
-                        child: Checkbox(value: isMemorable, activeColor: MainColors.green, onChanged: (value){
+                        child: Checkbox(value: isComplete, activeColor: MainColors.green, onChanged: (value){
                           setState(() {
-                            isMemorable = value!;
+                            isComplete = value!;
                           });
                         }),
                       ),
-                      Text("É um registro memorável?", style: TextStyles.fieldText,),
+                      Text("A meta está completa?", style: TextStyles.fieldText,),
                     ],
                   ),
                 ),
                 Input(
-                      label: "O que aconteceu, marujo?", 
+                      label: "Tem anotações sobre a meta?", 
                       height: size.height * 0.35, 
                       width: size.width * 0.8,
                       onChanged: (value) {
                         setState(() {
-                          text = value;
+                          description = value;
                         });
                       },
                     ),
@@ -152,7 +102,7 @@ class _CreateLogState extends State<CreateLog> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       InputWithController( 
-                        label: "Data do Registro",
+                        label: "Data de criação da meta",
                         height: size.height * 0.1,
                         width: size.width * 0.54,
                         enabled: false, 
@@ -186,19 +136,14 @@ class _CreateLogState extends State<CreateLog> {
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
 
-                          Log log = Log(
-                            title: title!, 
-                            text: text!, 
+                          Goal goal = Goal(
+                            name: name!, 
+                            description: description!, 
                             created_at: created_at!, 
-                            isMemorable: isMemorable,
-                            lat: currentPosition.latitude,
-                            long: currentPosition.longitude,
-                            mental: loginProvider.mental, 
-                            physical: loginProvider.mental, 
-                            social: loginProvider.mental, 
-                            professional: loginProvider.professional);
+                            isComplete: isComplete
+                          );
                     
-                          await logsProvider.createLog(loginProvider.googleId, log);
+                          await goalsProvider.createGoal(loginProvider.googleId, goal);
                           Navigator.pushReplacementNamed(context, "/home");
                         }
                     
@@ -210,8 +155,8 @@ class _CreateLogState extends State<CreateLog> {
               ],
             ),
           ),
+        ),
         )
-      ),
     );
   }
 }

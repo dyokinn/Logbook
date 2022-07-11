@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:logbook/modules/screens/create_goal.dart';
+import 'package:logbook/modules/screens/create_log.dart';
 import 'package:logbook/modules/screens/tabs/goals_tab.dart';
 import 'package:logbook/modules/screens/tabs/logs_tab.dart';
 
@@ -33,10 +35,36 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     GoalsTab()
   ];
 
+  pushCreateLog(){
+    Navigator.push(context, PageRouteBuilder(
+          pageBuilder: (context, __, ___) => CreateLog(), 
+          transitionDuration: Duration(seconds: 1),
+        ));
+  }
+
+  pushCreateGoal(){
+    Navigator.push(context, PageRouteBuilder(
+          pageBuilder: (context, __, ___) => CreateGoal(), 
+          transitionDuration: Duration(seconds: 1),
+        ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () {
+          if(tabController.index == 0){
+            pushCreateLog();
+          } else {
+            pushCreateGoal();
+          }
+        },
+        backgroundColor: MainColors.blue,
+        heroTag: "create",
+      ),
       backgroundColor: MainColors.black,
       drawer: AppDrawer(),
       body: TabBarView(

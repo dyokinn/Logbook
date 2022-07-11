@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:logbook/routes.dart';
+import 'package:logbook/shared/providers/goals_provider.dart';
 import 'package:logbook/shared/providers/login_provider.dart';
 import 'package:logbook/shared/providers/logs_provider.dart';
 import 'package:provider/provider.dart';
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider.value(value: LoginProvider()),
         ChangeNotifierProvider.value(value: LogsProvider()),
-
+        ChangeNotifierProvider.value(value: GoalsProvider()),
       ],
       child: MaterialApp(
         title: 'Logbook',

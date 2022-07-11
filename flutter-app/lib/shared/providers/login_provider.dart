@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:logbook/shared/providers/goals_provider.dart';
 import 'package:logbook/shared/providers/logs_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase/supabase.dart';
@@ -103,12 +104,15 @@ class LoginProvider extends ChangeNotifier{
     if (prefs.containsKey("userInfo") && prefs.containsKey("userStats")){
       final userProvider = context.read<LoginProvider>();
       final logsProvider = context.read<LogsProvider>();
+      final goalsProvider = context.read<GoalsProvider>();
 
       userProvider.setUserInfoFromMap(jsonDecode(await prefs.getString("userInfo") as String));
       userProvider.setUserStatsFromMap(jsonDecode(await prefs.getString("userStats") as String));
 
-      // Seta as logs iniciais daquele usuário
+      // Seta as logs e goals iniciais daquele usuário
       await logsProvider.updateLogList(googleId);
+      await goalsProvider.updateGoalList(googleId);
+
 
       Navigator.pushReplacementNamed(context, "/home");
     }
@@ -143,6 +147,8 @@ class LoginProvider extends ChangeNotifier{
       final prefs = await SharedPreferences.getInstance();
       final userProvider = context.read<LoginProvider>();
       final logsProvider = context.read<LogsProvider>();
+      final goalsProvider = context.read<GoalsProvider>();
+
 
       Map<String, dynamic> userInfo = {
         "id": googleId,
@@ -165,9 +171,10 @@ class LoginProvider extends ChangeNotifier{
       await prefs.setString("userInfo", jsonEncode(userInfo));
       await prefs.setString("userStats", jsonEncode(userStats));
 
-      // Seta as logs iniciais daquele usuário
+      // Seta as logs e goals iniciais daquele usuário
       await logsProvider.updateLogList(googleId);
-      print(googleId);
+      await goalsProvider.updateGoalList(googleId);
+
       Navigator.pushReplacementNamed(context, "/home");
       
       } catch(e){

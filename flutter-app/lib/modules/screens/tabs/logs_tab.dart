@@ -27,15 +27,7 @@ class _LogsTabState extends State<LogsTab> {
 
     return Scaffold(
       backgroundColor: MainColors.black,
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () => Navigator.push(context, PageRouteBuilder(
-          pageBuilder: (context, __, ___) => CreateLog(), 
-          transitionDuration: Duration(seconds: 1),
-        )),
-        backgroundColor: MainColors.blue,
-        heroTag: "create-log",
-      ),
+      
       body: SizedBox(
         width: size.width,
         child: RefreshIndicator(
