@@ -16,8 +16,9 @@ Goal _$GoalFromJson(Map<String, dynamic> json) => Goal(
           ? null
           : DateTime.parse(json['completed_at'] as String),
       steps: (json['steps'] as List<dynamic>?)
-          ?.map((e) => GoalStep.fromJson(e as Map<String, dynamic>))
-          .toList(),
+              ?.map((e) => GoalStep.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$GoalToJson(Goal instance) => <String, dynamic>{

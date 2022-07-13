@@ -65,26 +65,6 @@ class _CreateGoalState extends State<CreateGoal> {
                     },
                   ),
                 ),
-                SizedBox(
-                  height: size.height * 0.1,
-                  width: size.width * 0.8,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Theme(
-                        data: ThemeData(
-                        unselectedWidgetColor: MainColors.gray, // Your color
-                      ),
-                        child: Checkbox(value: isComplete, activeColor: MainColors.green, onChanged: (value){
-                          setState(() {
-                            isComplete = value!;
-                          });
-                        }),
-                      ),
-                      Text("A meta está completa?", style: TextStyles.fieldText,),
-                    ],
-                  ),
-                ),
                 Input(
                       label: "Tem anotações sobre a meta?", 
                       height: size.height * 0.35, 

@@ -21,6 +21,18 @@ class GoalsProvider extends ChangeNotifier{
     notifyListeners();
   }
 
+  void toggleGoalStep(googleId, int index, bool previousState) async {
+    if (previousState == false) {
+      activeGoal.steps[index].isComplete = true;
+      activeGoal.steps[index].completedAt = DateTime.now();
+    } else {
+      activeGoal.steps[index].isComplete = false;
+      activeGoal.steps[index].completedAt = null;
+    }
+
+    await updateGoal(googleId, activeGoal);
+  }
+
   Future<void> updateGoalList(googleId) async {
     QuerySnapshot response = await db.doc(googleId).collection("goals").get();
 
@@ -44,6 +56,12 @@ class GoalsProvider extends ChangeNotifier{
 
   Future<void> createGoal(googleId, Goal goal) async {
     var response = await db.doc(googleId).collection("goals").add(goal.toJson());
+    await updateGoalList(googleId);
+    notifyListeners();
+  }
+
+  Future<void> updateGoal(googleId, Goal goal) async {
+    var response = await db.doc(googleId).collection("goals").doc(goal.id).update(goal.toJson());
     await updateGoalList(googleId);
     notifyListeners();
   }

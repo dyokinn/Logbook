@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:logbook/modules/widgets/goal_preview.dart';
 import 'package:logbook/shared/providers/goals_provider.dart';
 import 'package:logbook/shared/providers/login_provider.dart';
 import 'package:logbook/shared/theme/main_colors.dart';
@@ -38,10 +39,13 @@ class GoalsTab extends StatelessWidget {
                   title: Text("Incluir metas já atingidas", style: TextStyles.text,),
                   
                 ),
-                ListView(
-                  shrinkWrap: true,
-                  children: goalsProvider.filteredGoals.map((goal) => Text(goal!.name, style: TextStyles.text,)).toList()
-                  ,
+                SizedBox(
+                  height: size.height * 0.7,
+                  child: ListView(
+                    shrinkWrap: true,
+                    children: goalsProvider.filteredGoals.map((goal) => GoalPreview(goal: goal!)).toList()
+                    ,
+                  ),
                 ),
               ],
             ),

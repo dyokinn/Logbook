@@ -14,7 +14,7 @@ class Goal {
   DateTime created_at;
   bool isComplete;
   DateTime? completed_at;
-  List<GoalStep>? steps = [];
+  List<GoalStep> steps;
 
   Goal({
     this.id,
@@ -23,7 +23,7 @@ class Goal {
     required this.created_at,
     required this.isComplete,
     this.completed_at,
-    this.steps
+    this.steps = const []
   });
 
   factory Goal.fromJson(Map<String, dynamic> data) => _$GoalFromJson(data);
