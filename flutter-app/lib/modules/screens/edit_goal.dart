@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class CreateStep extends StatelessWidget {
-  const CreateStep({ Key? key }) : super(key: key);
+class EditGoal extends StatelessWidget {
+  const EditGoal({ Key? key }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

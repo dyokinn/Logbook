@@ -5,7 +5,7 @@ import 'package:logbook/shared/classes/goal_step.dart';
 part'goal.g.dart';
 
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 
 class Goal {
   String? id;

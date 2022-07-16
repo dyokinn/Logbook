@@ -3,8 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part'goal_step.g.dart';
 
 
-@JsonSerializable()
-
+@JsonSerializable(explicitToJson: true)
 
 class GoalStep{
   String text;

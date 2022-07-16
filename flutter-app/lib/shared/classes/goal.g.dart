@@ -28,5 +28,5 @@ Map<String, dynamic> _$GoalToJson(Goal instance) => <String, dynamic>{
       'created_at': instance.created_at.toIso8601String(),
       'isComplete': instance.isComplete,
       'completed_at': instance.completed_at?.toIso8601String(),
-      'steps': instance.steps,
+      'steps': instance.steps.map((e) => e.toJson()).toList(),
     };

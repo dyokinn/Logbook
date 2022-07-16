@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part'log.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Log{
   String? id;
   String title;

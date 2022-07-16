@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/widgets.dart';
 import 'package:logbook/shared/classes/goal.dart';
+import 'package:logbook/shared/classes/goal_step.dart';
 
 
 class GoalsProvider extends ChangeNotifier{
@@ -21,6 +22,18 @@ class GoalsProvider extends ChangeNotifier{
     notifyListeners();
   }
 
+  addGoalStep(googleId, GoalStep step) async {
+    activeGoal.steps.add(step);
+    await updateGoal(googleId, activeGoal);
+    notifyListeners();
+  }
+
+  removeGoalStep(googleId, GoalStep step) async {
+    activeGoal.steps.remove(step);
+    await updateGoal(googleId, activeGoal);
+    notifyListeners();
+  }
+
   void toggleGoalStep(googleId, int index, bool previousState) async {
     if (previousState == false) {
       activeGoal.steps[index].isComplete = true;
@@ -31,6 +44,7 @@ class GoalsProvider extends ChangeNotifier{
     }
 
     await updateGoal(googleId, activeGoal);
+    notifyListeners();
   }
 
   Future<void> updateGoalList(googleId) async {
@@ -61,7 +75,7 @@ class GoalsProvider extends ChangeNotifier{
   }
 
   Future<void> updateGoal(googleId, Goal goal) async {
-    var response = await db.doc(googleId).collection("goals").doc(goal.id).update(goal.toJson());
+    await db.doc(googleId).collection("goals").doc(goal.id).update(goal.toJson());
     await updateGoalList(googleId);
     notifyListeners();
   }
