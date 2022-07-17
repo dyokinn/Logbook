@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:logbook/shared/controllers/login_controller.dart';
 import 'package:logbook/shared/theme/main_colors.dart';
 import 'package:logbook/shared/theme/text_styles.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:provider/provider.dart';
+
+import '../../shared/providers/login_provider.dart';
 
 class LoginPage extends StatelessWidget {
+  const LoginPage({Key? key}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
     // Puxando o tamanho da tela
     final size = MediaQuery.of(context).size;
 
-    final LoginController loginController = LoginController();
+    final LoginProvider loginProvider = context.read<LoginProvider>();
     
     return Scaffold(
       backgroundColor: MainColors.black,
@@ -27,27 +30,33 @@ class LoginPage extends StatelessWidget {
               Container(
                 margin: EdgeInsets.fromLTRB(size.height * 0.1, 0, size.height * 0.1, size.height * 0.1),
                 child: Text(
-                  "Seja bem vindo capitão!", 
+                  "Seja bem vindo almirante!", 
                   style: TextStyles.title,
                   textAlign: TextAlign.center,
                 ),
               ),
-              Container(
-
-                child: ElevatedButton(
-                  child: Text("Login com o Google"),
-                  onPressed: () => loginController.handleLogin(context),
-                  style: ElevatedButton.styleFrom(
-                    primary: MainColors.gray,
-                    textStyle: TextStyles.text, 
-                    fixedSize: Size(
-                      size.width * 0.6,
-                      size.height * 0.08
-                    )
+                SizedBox(
+                  height: size.height * 0.1,
+                  width: size.width * 0.6,
+                  child: ElevatedButton(
+                    onPressed: () => loginProvider.handleLogin(context),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          "Entrar com o Google",
+                        ),
+                        Image.asset(
+                          "assets/images/google-logo.png",
+                          height: 30,
+                          width: 30,
+                        ),
+                      ],
+                    ),
+                    style: ElevatedButton.styleFrom(primary: MainColors.gray, textStyle: TextStyles.text),
                   ),
-                ),
-              )
-              
+                )
+
             ],
           )
       )

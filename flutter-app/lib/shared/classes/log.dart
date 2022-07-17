@@ -3,22 +3,28 @@ import 'package:json_annotation/json_annotation.dart';
 
 part'log.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Log{
-  int id;
+  String? id;
   String title;
   String text;
   DateTime created_at;
-  double mental;
-  double physical;
-  double social;
-  double professional;
+  bool isMemorable;
+  double? lat;
+  double? long;
+  int mental;
+  int physical;
+  int social;
+  int professional;
 
   Log({
-    required this.id,
+    this.id,
     required this.title,
     required this.text,
     required this.created_at,
+    required this.isMemorable,
+    this.lat,
+    this.long,
     required this.mental,
     required this.physical,
     required this.social,

@@ -15,17 +15,23 @@ dependencies:
   cupertino_icons: ^1.0.2
   google_fonts: ^2.1.0
   supabase: ^0.2.6
-  supabase_flutter: ^0.2.7
-  injector: ^2.0.0
   google_sign_in: ^5.1.0
+  cloud_firestore: ^3.1.17
+  intl: ^0.17.0
   firebase_core: ^1.6.0
+  firebase_auth: ^3.3.18
   shared_preferences: ^2.0.8
   provider: ^6.0.1
-  json_serializable: ^5.0.2
-  build_runner: ^2.1.4
   json_annotation: ^4.1.0
+  geocoding: ^2.0.4
+  geolocator: ^8.2.1
+  flutter_map: ^0.14.0
+  step_progress_indicator: ^1.0.2
+  rflutter_alert: ^2.0.4
 
 dev_dependencies:
+  json_serializable: ^5.0.2
+  build_runner: ^2.1.4
   flutter_test:
     sdk: flutter
 
