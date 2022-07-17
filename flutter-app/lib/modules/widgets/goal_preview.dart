@@ -24,7 +24,7 @@ class GoalPreview extends StatelessWidget {
     LoginProvider loginProvider = context.read<LoginProvider>();
 
     return Container(
-      height: size.height * 0.25,
+      height: size.height * 0.15,
       alignment: Alignment.topCenter,
       margin: EdgeInsets.only(top: size.height * 0.04),
       decoration: BoxDecoration(
@@ -55,27 +55,27 @@ class GoalPreview extends StatelessWidget {
             ),
           ],
         )),
-        title: Padding(
-          padding: const EdgeInsets.only(top:15.0, bottom: 15.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SizedBox(
-                width: size.width * 0.45,
-                child: Text(goal.name, overflow: TextOverflow.ellipsis, style: TextStyles.heading)
-              ),
-              SizedBox(
-                width: size.width * 0.3,
-                child: goal.isComplete 
-              ? const Center(child: Icon(Icons.verified_rounded, color: MainColors.green,size: 30))
-              : const Center(child: Icon(Icons.close, color: MainColors.red,size: 30)),
-              ),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              alignment: Alignment.centerLeft,
+              height: size.height * 0.08,
+              width: size.width * 0.55,
+              child: Text(goal.name, textAlign: TextAlign.left, overflow: TextOverflow.ellipsis, style: TextStyles.heading)
+            ),
+            SizedBox(
+              height: size.height * 0.08,
+              width: size.width * 0.2,
+              child: goal.isComplete 
+            ? const Center(child: Icon(Icons.verified_rounded, color: MainColors.green,size: 30))
+            : const Center(child: Icon(Icons.verified_rounded, color: MainColors.gray, size: 30)),
+            ),
     
-            ],
-          ),
+          ],
         ),
         subtitle: goal.steps.isEmpty
-          ? Text("Sem etapas definidas!", style: TextStyles.text,)
+          ? Text("Sem rota definida!", textAlign: TextAlign.center, style: TextStyles.text,)
           : StepProgressIndicator(
               totalSteps: goal.steps.length,
               currentStep: goal.steps.lastIndexWhere((step) => step.isComplete) == -1
@@ -83,22 +83,32 @@ class GoalPreview extends StatelessWidget {
                 : goal.steps.lastIndexWhere((step) => step.isComplete) + 1
               ,
               size: 36,
-              selectedColor: MainColors.green,
+              selectedColor: MainColors.black,
               unselectedColor: MainColors.gray,
-              customStep: (index, color, _) => color == MainColors.green
+              customStep: (index, color, _) => color == MainColors.black
                   ? Container(
                       color: color,
                       child: const Icon(
                       Icons.check,
-                      color: Colors.white,
+                      color: MainColors.green,
                       ),
                   )
-                  : Container(
-                      color: color,
-                      child: const Icon(
-                      Icons.remove,
-                      ),
-                  ),
+                  : index == goal.steps.length - 1
+                    ? Container(
+                        color: color,
+                        child: const Icon(
+                        Icons.close,
+                        color: MainColors.red,
+                        size: 30,
+                        ),
+                    )
+                    : Container(
+                        color: color,
+                        child: const Icon(
+                        Icons.remove,
+                        color: Colors.white70,
+                        ),
+                    ),
           ),
         ),
     );

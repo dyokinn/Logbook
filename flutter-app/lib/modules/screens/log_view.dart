@@ -22,7 +22,7 @@ class LogView extends StatelessWidget {
 
         Placemark place = placemarks[0];
         print(place);
-        return "${place.thoroughfare}, ${place.subAdministrativeArea}\n${place.administrativeArea} - ${place.country}\n";
+        return "${place.subAdministrativeArea}\n${place.administrativeArea} - ${place.country}\n";
       } catch (e) {
         print(e);
       }
@@ -162,7 +162,9 @@ class LogView extends StatelessWidget {
               ),
               Text("Localização", style: TextStyles.heading,),
 
-              FutureBuilder(
+              logsProvider.activeLog.lat == null 
+              ? Text("")
+              : FutureBuilder(
                 future: getAddressFromLatLng(logsProvider.activeLog.lat, logsProvider.activeLog.long),
                 builder: (context, snapshot) {
                 if(snapshot.hasData){
@@ -175,12 +177,14 @@ class LogView extends StatelessWidget {
                   return const Text("carregando localização...");
                 }
               }),
-              Container(
+              logsProvider.activeLog.lat == null 
+              ? Text("Sem localização providenciada", style: TextStyles.text,)
+              : Container(
                 height: size.height * 0.2,
                 margin: const EdgeInsets.only(bottom: 50),
                 child: FlutterMap(
                   options: MapOptions(
-                      center: LatLng(logsProvider.activeLog.lat, logsProvider.activeLog.long),
+                      center: LatLng(logsProvider.activeLog.lat!, logsProvider.activeLog.long!),
                       zoom: 12,
                   ),
                   layers: [
@@ -192,7 +196,7 @@ class LogView extends StatelessWidget {
                         Marker(
                           width: 100.0,
                           height: 100.0,
-                          point: LatLng(logsProvider.activeLog.lat, logsProvider.activeLog.long),
+                          point: LatLng(logsProvider.activeLog.lat!, logsProvider.activeLog.long!),
                           builder: (ctx) => const Icon(
                             Icons.anchor_sharp,
                             color: MainColors.black,

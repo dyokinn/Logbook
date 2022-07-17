@@ -55,7 +55,7 @@ class _CreateGoalState extends State<CreateGoal> {
               shrinkWrap: true,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 30.0),
+                  padding: const EdgeInsets.only(top: 30.0, bottom: 30),
                   child: Input(
                     height: size.height * 0.1,
                     width: size.width * 0.8,
@@ -97,7 +97,7 @@ class _CreateGoalState extends State<CreateGoal> {
                           showDatePicker(
                                 context: context,
                                 initialDate: DateTime.now(),
-                                firstDate: DateTime(2022),
+                                firstDate: DateTime(2015),
                                 lastDate: DateTime(2030))
                             .then((date) {
                           setState(() {

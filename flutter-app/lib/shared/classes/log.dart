@@ -10,8 +10,8 @@ class Log{
   String text;
   DateTime created_at;
   bool isMemorable;
-  double lat;
-  double long;
+  double? lat;
+  double? long;
   int mental;
   int physical;
   int social;
@@ -23,8 +23,8 @@ class Log{
     required this.text,
     required this.created_at,
     required this.isMemorable,
-    required this.lat,
-    required this.long,
+    this.lat,
+    this.long,
     required this.mental,
     required this.physical,
     required this.social,

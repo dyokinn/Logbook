@@ -38,6 +38,12 @@ class Alerts {
     GoalStep step = GoalStep(text: "", isComplete: false);
 
     Alert(
+      style: AlertStyle(
+      backgroundColor: MainColors.gray,
+      titleStyle: TextStyles.text,
+      alertBorder: Border.all(style: BorderStyle.none)
+      
+      ),
       context: context,
       title: "Adicionar Etapa",
       content: Column(
@@ -46,8 +52,10 @@ class Alerts {
             onChanged: (String newValue) {
               step.text = newValue;
             },
-            decoration: const InputDecoration(
+            style: TextStyles.text,
+            decoration: InputDecoration(
               labelText: 'Nome',
+              labelStyle: TextStyles.fieldText
             ),
           ),
         ],

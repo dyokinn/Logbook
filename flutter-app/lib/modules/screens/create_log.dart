@@ -1,9 +1,8 @@
-// ignore_for_file: non_constant_identifier_names
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:logbook/modules/screens/home_page.dart';
 import 'package:logbook/modules/widgets/app_bar_with_back.dart';
+import 'package:logbook/modules/widgets/app_drawer.dart';
 import 'package:logbook/modules/widgets/custom_button.dart';
 import 'package:logbook/modules/widgets/input.dart';
 import 'package:logbook/modules/widgets/input_with_controller.dart';
@@ -37,10 +36,10 @@ class _CreateLogState extends State<CreateLog> {
   double? physical;
   double? social;
   double? professional;
-  late Position currentPosition;
+  Position? currentPosition;
 
-  Future getCurrentLocation() async {
-   var permission = await Geolocator.requestPermission();
+  checkPermissions() async {
+    var permission = await Geolocator.requestPermission();
    bool isLocationServiceEnabled = await Geolocator.isLocationServiceEnabled();
 
     if (!isLocationServiceEnabled){
@@ -53,22 +52,28 @@ class _CreateLogState extends State<CreateLog> {
           actions: <Widget>[
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text("Entendi!")
+              child: Text("Entendi!")
             ),
           ],
         ));
-        return;
     }
-    Geolocator
-      .getCurrentPosition(desiredAccuracy: LocationAccuracy.best, forceAndroidLocationManager: true)
-      .then((Position position) {
-        print(position.latitude);
-        setState(() {
-          currentPosition = position;
-        });
-      }).catchError((e) {
-        print(e);
-      });
+  }
+
+  getCurrentLocation() async {
+    try{
+      print("BUSCA INICIADA");
+      Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.best, 
+        forceAndroidLocationManager: true,
+        timeLimit: Duration(seconds: 5)
+      );
+      print(position);
+      return position;
+
+    } catch(e){
+      print("CAIU NO CATCH");
+      return false;
+    }
   }
 
   @override
@@ -87,13 +92,13 @@ class _CreateLogState extends State<CreateLog> {
 
     final size = MediaQuery.of(context).size;
 
-    getCurrentLocation();
-
+    checkPermissions();
+    
     return Hero(
       tag: "create",
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: const AppBarWithBack(pageToGo: HomePage()),
+        appBar: AppBarWithBack(pageToGo: HomePage()),
         backgroundColor: MainColors.black,
         body: Container(
           width: size.width * 0.8,
@@ -186,14 +191,20 @@ class _CreateLogState extends State<CreateLog> {
                       icon: Icons.send,
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
+                          var pos = await getCurrentLocation();
+                          if (pos != false){
+                            setState(() {
+                              currentPosition = pos;
+                            });
+                          }
 
                           Log log = Log(
                             title: title!, 
                             text: text!, 
                             created_at: created_at!, 
                             isMemorable: isMemorable,
-                            lat: currentPosition.latitude,
-                            long: currentPosition.longitude,
+                            lat: currentPosition?.latitude,
+                            long: currentPosition?.longitude,
                             mental: loginProvider.mental, 
                             physical: loginProvider.mental, 
                             social: loginProvider.mental, 
