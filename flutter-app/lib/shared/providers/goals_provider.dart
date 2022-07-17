@@ -24,12 +24,23 @@ class GoalsProvider extends ChangeNotifier{
 
   addGoalStep(googleId, GoalStep step) async {
     activeGoal.steps.add(step);
+    activeGoal.isComplete = false;
+    activeGoal.completed_at = null;
     await updateGoal(googleId, activeGoal);
     notifyListeners();
   }
 
   removeGoalStep(googleId, GoalStep step) async {
     activeGoal.steps.remove(step);
+
+    if(activeGoal.steps.every((element) => element.isComplete)){
+      activeGoal.isComplete = true;
+      activeGoal.completed_at = DateTime.now();
+    } else{
+      activeGoal.isComplete = false;
+      activeGoal.completed_at = null;
+    }
+
     await updateGoal(googleId, activeGoal);
     notifyListeners();
   }
@@ -41,6 +52,27 @@ class GoalsProvider extends ChangeNotifier{
     } else {
       activeGoal.steps[index].isComplete = false;
       activeGoal.steps[index].completedAt = null;
+    }
+
+    if(activeGoal.steps.every((element) => element.isComplete)){
+      activeGoal.isComplete = true;
+      activeGoal.completed_at = DateTime.now();
+    } else{
+      activeGoal.isComplete = false;
+      activeGoal.completed_at = null;
+    }
+
+    await updateGoal(googleId, activeGoal);
+    notifyListeners();
+  }
+
+  void toggleActiveGoalStatus(googleId) async {
+    if(activeGoal.isComplete){
+      activeGoal.isComplete = false;
+      activeGoal.completed_at = null;
+    } else {
+      activeGoal.isComplete = true;
+      activeGoal.completed_at = DateTime.now();
     }
 
     await updateGoal(googleId, activeGoal);

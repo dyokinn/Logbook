@@ -46,15 +46,15 @@ class Input extends StatelessWidget {
             decoration: InputDecoration(
               filled: true,
               fillColor: MainColors.gray,
-              border: OutlineInputBorder(
-                  borderSide: const BorderSide(color: Colors.transparent),
-                  borderRadius: const BorderRadius.all(Radius.circular(8))),
-              enabledBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: Colors.transparent),
-                  borderRadius: const BorderRadius.all(Radius.circular(8))),
-              focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: Colors.transparent),
-                  borderRadius: const BorderRadius.all(Radius.circular(8))),
+              border: const OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.transparent),
+                  borderRadius: BorderRadius.all(Radius.circular(8))),
+              enabledBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.transparent),
+                  borderRadius: BorderRadius.all(Radius.circular(8))),
+              focusedBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.transparent),
+                  borderRadius: BorderRadius.all(Radius.circular(8))),
               label: Center(child: Text(label)),
               labelStyle: TextStyles.fieldText
           ),

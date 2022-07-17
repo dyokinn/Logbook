@@ -20,41 +20,41 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   late TabController tabController = TabController(length: 2, vsync: this);
 
   List<Tab>tabIcons = [
-    Tab(
+    const Tab(
       icon: Icon(Icons.library_books, color: MainColors.blue,),
       text: "Diário de Bordo",
     ),
-    Tab(
-      icon: Icon(Icons.map, color: MainColors.blue,),
+    const Tab(
+      icon: const Icon(Icons.map, color: MainColors.blue,),
       text: "Tesouros",
     ),
   ];
 
   List<Widget> tabPages = [
-    LogsTab(),
-    GoalsTab()
+    const LogsTab(),
+    const GoalsTab()
   ];
 
   pushCreateLog(){
     Navigator.push(context, PageRouteBuilder(
-          pageBuilder: (context, __, ___) => CreateLog(), 
-          transitionDuration: Duration(seconds: 1),
+          pageBuilder: (context, __, ___) => const CreateLog(), 
+          transitionDuration: const Duration(seconds: 1),
         ));
   }
 
   pushCreateGoal(){
     Navigator.push(context, PageRouteBuilder(
-          pageBuilder: (context, __, ___) => CreateGoal(), 
-          transitionDuration: Duration(seconds: 1),
+          pageBuilder: (context, __, ___) => const CreateGoal(), 
+          transitionDuration: const Duration(seconds: 1),
         ));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(),
+      appBar: const CustomAppBar(),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
         onPressed: () {
           if(tabController.index == 0){
             pushCreateLog();
@@ -66,17 +66,15 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         heroTag: "create",
       ),
       backgroundColor: MainColors.black,
-      drawer: AppDrawer(),
+      drawer: const AppDrawer(),
       body: TabBarView(
         controller: tabController,
         children: tabPages,
       ),
-      bottomNavigationBar: Container(
-        child: TabBar(
-          tabs: tabIcons,
-          controller: tabController,
-          indicatorColor: MainColors.blue,
-        ),
+      bottomNavigationBar: TabBar(
+        tabs: tabIcons,
+        controller: tabController,
+        indicatorColor: MainColors.blue,
       ),
     );
   }

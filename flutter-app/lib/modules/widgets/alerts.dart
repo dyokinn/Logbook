@@ -3,6 +3,7 @@ import 'package:logbook/shared/classes/goal_step.dart';
 import 'package:logbook/shared/providers/goals_provider.dart';
 import 'package:logbook/shared/providers/login_provider.dart';
 import 'package:logbook/shared/theme/main_colors.dart';
+import 'package:logbook/shared/theme/text_styles.dart';
 import 'package:provider/provider.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
@@ -10,12 +11,16 @@ class Alerts {
 
   static popSuccess(BuildContext context){
    Alert(
+    style: AlertStyle(
+      backgroundColor: MainColors.gray,
+      titleStyle: TextStyles.text
+    ),
     context: context,
     title: "Sucesso!",
     desc: "Dados atualizados!",
     buttons: [
       DialogButton(
-          child: Text(
+          child: const Text(
             "Voltar",
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
@@ -41,7 +46,7 @@ class Alerts {
             onChanged: (String newValue) {
               step.text = newValue;
             },
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               labelText: 'Nome',
             ),
           ),
@@ -54,7 +59,7 @@ class Alerts {
             Navigator.pop(context);
           },
           color: MainColors.green,
-          child: Icon(Icons.send,)
+          child: const Icon(Icons.send,)
         )
       ]
     ).show();

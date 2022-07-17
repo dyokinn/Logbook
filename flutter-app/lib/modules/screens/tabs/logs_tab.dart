@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:logbook/modules/screens/create_log.dart';
 import 'package:logbook/modules/widgets/log_preview.dart';
-import 'package:logbook/shared/classes/log.dart';
 import 'package:logbook/shared/providers/login_provider.dart';
 import 'package:logbook/shared/providers/logs_provider.dart';
 import 'package:logbook/shared/theme/main_colors.dart';
-import 'package:logbook/shared/theme/text_styles.dart';
 import 'package:provider/provider.dart';
 
 class LogsTab extends StatefulWidget {

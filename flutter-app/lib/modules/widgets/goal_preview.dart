@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:logbook/modules/screens/log_view.dart';
 import 'package:logbook/shared/classes/goal.dart';
 import 'package:logbook/shared/providers/goals_provider.dart';
 import 'package:logbook/shared/providers/login_provider.dart';
-import 'package:logbook/shared/providers/logs_provider.dart';
 import 'package:logbook/shared/theme/main_colors.dart';
 import 'package:logbook/shared/theme/text_styles.dart';
 import 'package:provider/provider.dart';
-import 'package:provider/provider.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
-import '../../shared/classes/log.dart';
 
 class GoalPreview extends StatelessWidget {
 
@@ -49,22 +44,14 @@ class GoalPreview extends StatelessWidget {
                 goalsProvider.setActiveGoal(goal);
                 Navigator.pushReplacementNamed(context, "/goal-view");
                 },
-              icon: Icon(Icons.remove_red_eye, color: MainColors.blue,),
-            ),
-            IconButton(
-              onPressed: () {
-                goalsProvider.setActiveGoal(goal);
-                Navigator.pushReplacementNamed(context, "/goal-view");
-                Navigator.pop(context);
-              },
-              icon: Icon(Icons.edit, color: MainColors.green,),
+              icon: const Icon(Icons.remove_red_eye, color: MainColors.blue,),
             ),
             IconButton(
               onPressed: () async {
                 goalsProvider.deleteGoal(loginProvider.googleId, goal);
                 Navigator.pop(context);
               },
-              icon: Icon(Icons.delete, color: MainColors.red,),
+              icon: const Icon(Icons.delete, color: MainColors.red,),
             ),
           ],
         )),
@@ -80,8 +67,8 @@ class GoalPreview extends StatelessWidget {
               SizedBox(
                 width: size.width * 0.3,
                 child: goal.isComplete 
-              ? Center(child: Icon(Icons.verified_rounded, color: MainColors.green,size: 30))
-              : Center(child: Icon(Icons.close, color: MainColors.red,size: 30)),
+              ? const Center(child: Icon(Icons.verified_rounded, color: MainColors.green,size: 30))
+              : const Center(child: Icon(Icons.close, color: MainColors.red,size: 30)),
               ),
     
             ],
@@ -91,9 +78,9 @@ class GoalPreview extends StatelessWidget {
           ? Text("Sem etapas definidas!", style: TextStyles.text,)
           : StepProgressIndicator(
               totalSteps: goal.steps.length,
-              currentStep: goal.steps.indexWhere((goal) => goal.isComplete) == -1
-                          ? 0
-                          : goal.steps.indexWhere((goal) => goal.isComplete)
+              currentStep: goal.steps.lastIndexWhere((step) => step.isComplete) == -1
+                ? 0
+                : goal.steps.lastIndexWhere((step) => step.isComplete) + 1
               ,
               size: 36,
               selectedColor: MainColors.green,
@@ -101,14 +88,14 @@ class GoalPreview extends StatelessWidget {
               customStep: (index, color, _) => color == MainColors.green
                   ? Container(
                       color: color,
-                      child: Icon(
+                      child: const Icon(
                       Icons.check,
                       color: Colors.white,
                       ),
                   )
                   : Container(
                       color: color,
-                      child: Icon(
+                      child: const Icon(
                       Icons.remove,
                       ),
                   ),

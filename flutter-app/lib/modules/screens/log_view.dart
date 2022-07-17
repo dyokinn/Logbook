@@ -3,7 +3,6 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:logbook/modules/screens/home_page.dart';
 import 'package:logbook/modules/widgets/app_bar_with_back.dart';
 import 'package:logbook/shared/providers/goals_provider.dart';
-import 'package:logbook/shared/providers/login_provider.dart';
 import 'package:logbook/shared/providers/logs_provider.dart';
 import 'package:logbook/shared/theme/main_colors.dart';
 import 'package:logbook/shared/theme/text_styles.dart';
@@ -37,7 +36,7 @@ class LogView extends StatelessWidget {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
-      appBar: AppBarWithBack(pageToGo: HomePage()),
+      appBar: const AppBarWithBack(pageToGo: HomePage()),
       body: Container(
         height: size.height * 3,
         width: size.width,
@@ -62,7 +61,7 @@ class LogView extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.workspace_premium, color: MainColors.green,),
+                          const Icon(Icons.workspace_premium, color: MainColors.green,),
                           Text("Memorável", style: TextStyles.text,)
                         ],
                       ),
@@ -73,7 +72,7 @@ class LogView extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.workspace_premium, color: MainColors.gray,),
+                          const Icon(Icons.workspace_premium, color: MainColors.gray,),
                           Text("Comum", style: TextStyles.text)
                         ],
                       ),
@@ -87,7 +86,7 @@ class LogView extends StatelessWidget {
               Container(
                 height: size.height * 0.3,
                 width: size.width * 0.8,
-                margin: EdgeInsets.only(top: 20, bottom: 50),
+                margin: const EdgeInsets.only(top: 20, bottom: 50),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -97,8 +96,8 @@ class LogView extends StatelessWidget {
                       children: [
                         Row(
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.only(right: 10.0),
+                            const Padding(
+                              padding: EdgeInsets.only(right: 10.0),
                               child: Icon(Icons.self_improvement, color: MainColors.green, size: 30),
                             ),
                             Column(
@@ -111,8 +110,8 @@ class LogView extends StatelessWidget {
                         ),
                         Row(
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.only(right: 10.0),
+                            const Padding(
+                              padding: EdgeInsets.only(right: 10.0),
                               child: Icon(Icons.sports_gymnastics_sharp, color: MainColors.green,size: 30),
                             ),
                             Column(
@@ -130,8 +129,8 @@ class LogView extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.only(right: 10.0),
+                      const Padding(
+                        padding: EdgeInsets.only(right: 10.0),
                         child: Icon(Icons.work, color: MainColors.green,size: 30),
                       ),
                       Column(
@@ -144,8 +143,8 @@ class LogView extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.only(right: 10.0),
+                      const Padding(
+                        padding: EdgeInsets.only(right: 10.0),
                         child: Icon(Icons.people_alt_outlined, color: MainColors.green,size: 30),
                       ),
                       Column(
@@ -173,12 +172,12 @@ class LogView extends StatelessWidget {
                   );
                 }
                 else{
-                  return Text("carregando localização...");
+                  return const Text("carregando localização...");
                 }
               }),
               Container(
                 height: size.height * 0.2,
-                margin: EdgeInsets.only(bottom: 50),
+                margin: const EdgeInsets.only(bottom: 50),
                 child: FlutterMap(
                   options: MapOptions(
                       center: LatLng(logsProvider.activeLog.lat, logsProvider.activeLog.long),

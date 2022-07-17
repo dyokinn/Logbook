@@ -5,7 +5,6 @@ import 'package:logbook/modules/widgets/app_bar_with_back.dart';
 import 'package:logbook/modules/widgets/app_drawer.dart';
 import 'package:logbook/modules/widgets/step_viewer.dart';
 import 'package:logbook/shared/providers/goals_provider.dart';
-import 'package:logbook/shared/providers/logs_provider.dart';
 import 'package:logbook/shared/theme/main_colors.dart';
 import 'package:logbook/shared/theme/text_styles.dart';
 import 'package:provider/provider.dart';
@@ -19,8 +18,8 @@ class GoalView extends StatelessWidget {
 
     final size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBarWithBack(pageToGo: HomePage()),
-      drawer: AppDrawer(),
+      appBar: const AppBarWithBack(pageToGo: HomePage()),
+      drawer: const AppDrawer(),
       backgroundColor: MainColors.black,
       body:  Container(
           margin: EdgeInsets.only(left: size.width * 0.1, right: size.width * 0.1),
@@ -42,8 +41,8 @@ class GoalView extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.verified, color: MainColors.green,),
-                          Text("Completa em " + DateFormat('dd/MM/yyyy').format(goalsProvider.activeGoal.completed_at ?? DateTime.now()), style: TextStyles.text,)
+                          const Icon(Icons.verified, color: MainColors.green,),
+                          Text("Completa\n" + DateFormat('dd/MM/yyyy').format(goalsProvider.activeGoal.completed_at ?? DateTime.now()), textAlign: TextAlign.center, style: TextStyles.text,)
                         ],
                       ),
                     ),
@@ -53,7 +52,7 @@ class GoalView extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.close, color: MainColors.red,),
+                          const Icon(Icons.close, color: MainColors.red,),
                           Text("Incompleta", style: TextStyles.text)
                         ],
                       ),
@@ -64,8 +63,11 @@ class GoalView extends StatelessWidget {
               ),
               Expanded(child: Text(goalsProvider.activeGoal.description, overflow: TextOverflow.visible, style: TextStyles.heading)),
 
-              Text("Etapas", style: TextStyles.heading,),
-              StepViewer(isCreationAllowed: true)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 50),
+                child: Text("Etapas", style: TextStyles.heading,),
+              ),
+              const StepViewer(isCreationAllowed: true)
             ],
           ),
         ),

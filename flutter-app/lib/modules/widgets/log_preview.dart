@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:logbook/modules/screens/log_view.dart';
 import 'package:logbook/shared/providers/login_provider.dart';
 import 'package:logbook/shared/providers/logs_provider.dart';
 import 'package:logbook/shared/theme/main_colors.dart';
@@ -45,18 +44,18 @@ class LogPreview extends StatelessWidget {
                 logsProvider.setActiveLog(log);
                 Navigator.pushReplacementNamed(context, "/log-view");
                 },
-              icon: Icon(Icons.remove_red_eye, color: MainColors.blue,),
+              icon: const Icon(Icons.remove_red_eye, color: MainColors.blue,),
             ),
             IconButton(
               onPressed: () => Navigator.pushReplacementNamed(context, "/create-log"),
-              icon: Icon(Icons.edit, color: MainColors.green,),
+              icon: const Icon(Icons.edit, color: MainColors.green,),
             ),
             IconButton(
               onPressed: () async {
                 logsProvider.deleteLog(loginProvider.googleId, log);
                 Navigator.pop(context);
               },
-              icon: Icon(Icons.delete, color: MainColors.red,),
+              icon: const Icon(Icons.delete, color: MainColors.red,),
             ),
           ],
         )),
@@ -89,8 +88,8 @@ class LogPreview extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.only(right: 14.0),
+                      const Padding(
+                        padding: EdgeInsets.only(right: 14.0),
                         child: Icon(Icons.self_improvement, color: MainColors.green, size: 30),
                       ),
                       Text(log.mental.toString(), style: TextStyles.text,)
@@ -98,8 +97,8 @@ class LogPreview extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.only(right: 14.0),
+                      const Padding(
+                        padding: EdgeInsets.only(right: 14.0),
                         child: Icon(Icons.sports_gymnastics_sharp, color: MainColors.green,size: 30),
                       ),
                       Text(log.physical.toString(), style: TextStyles.text,)
@@ -112,8 +111,8 @@ class LogPreview extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.only(right: 14.0),
+                      const Padding(
+                        padding: EdgeInsets.only(right: 14.0),
                         child: Icon(Icons.work, color: MainColors.green,size: 30),
                       ),
                       Text(log.professional.toString(), style: TextStyles.text,)
@@ -121,8 +120,8 @@ class LogPreview extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.only(right: 14.0),
+                      const Padding(
+                        padding: EdgeInsets.only(right: 14.0),
                         child: Icon(Icons.people_alt_outlined, color: MainColors.green,size: 30),
                       ),
                       Text(log.social.toString(), style: TextStyles.text,)
@@ -131,8 +130,8 @@ class LogPreview extends StatelessWidget {
                 ],
               ),
               log.isMemorable 
-              ? Center(child: Icon(Icons.workspace_premium, color: MainColors.green,size: 30))
-              : Center(child: Icon(Icons.workspace_premium, color: MainColors.black,size: 30)),
+              ? const Center(child: Icon(Icons.workspace_premium, color: MainColors.green,size: 30))
+              : const Center(child: Icon(Icons.workspace_premium, color: MainColors.black,size: 30)),
             ],
           ),
         ),

@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:logbook/modules/screens/home_page.dart';
@@ -42,7 +44,7 @@ class _CreateGoalState extends State<CreateGoal> {
       tag: "create",
         child: Scaffold(
           resizeToAvoidBottomInset: false,
-        appBar: AppBarWithBack(pageToGo: HomePage()),
+        appBar: const AppBarWithBack(pageToGo: HomePage()),
         backgroundColor: MainColors.black,
         body: Container(
           width: size.width * 0.8,

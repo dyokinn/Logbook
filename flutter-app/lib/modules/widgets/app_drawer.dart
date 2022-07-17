@@ -1,4 +1,5 @@
-import 'package:flutter/cupertino.dart';
+// ignore_for_file: implementation_imports
+
 import 'package:flutter/material.dart';
 import 'package:logbook/shared/providers/login_provider.dart';
 import 'package:logbook/shared/theme/main_colors.dart';
@@ -47,7 +48,7 @@ class AppDrawer extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       GestureDetector(
-                        child: Icon(Icons.remove,color: MainColors.green, size: 30,),
+                        child: const Icon(Icons.remove,color: MainColors.green, size: 30,),
                         onTap: () => loginProvider.decrementStat("mental"),
                       ),
                     ],
@@ -56,7 +57,7 @@ class AppDrawer extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       GestureDetector(
-                        child: Icon(Icons.add, color: MainColors.green, size: 30),
+                        child: const Icon(Icons.add, color: MainColors.green, size: 30),
                         onTap: () => loginProvider.incrementStat("mental"),
                       ),
                     ],
@@ -78,7 +79,7 @@ class AppDrawer extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       GestureDetector(
-                        child: Icon(Icons.remove,color: MainColors.green, size: 30,),
+                        child: const Icon(Icons.remove,color: MainColors.green, size: 30,),
                         onTap: () => loginProvider.decrementStat("social"),
                       ),
                     ],
@@ -87,7 +88,7 @@ class AppDrawer extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       GestureDetector(
-                        child: Icon(Icons.add, color: MainColors.green, size: 30),
+                        child: const Icon(Icons.add, color: MainColors.green, size: 30),
                         onTap: () => loginProvider.incrementStat("social"),
                       ),
                     ],
@@ -109,7 +110,7 @@ class AppDrawer extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       GestureDetector(
-                        child: Icon(Icons.remove,color: MainColors.green, size: 30,),
+                        child: const Icon(Icons.remove,color: MainColors.green, size: 30,),
                         onTap: () => loginProvider.decrementStat("professional"),
                       ),
                     ],
@@ -118,7 +119,7 @@ class AppDrawer extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       GestureDetector(
-                        child: Icon(Icons.add, color: MainColors.green, size: 30),
+                        child: const Icon(Icons.add, color: MainColors.green, size: 30),
                         onTap: () => loginProvider.incrementStat("professional"),
                       ),
                     ],
@@ -140,7 +141,7 @@ class AppDrawer extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       GestureDetector(
-                        child: Icon(Icons.remove,color: MainColors.green, size: 30,),
+                        child: const Icon(Icons.remove,color: MainColors.green, size: 30,),
                         onTap: () => loginProvider.decrementStat("physical"),
                       ),
                     ],
@@ -149,7 +150,7 @@ class AppDrawer extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       GestureDetector(
-                        child: Icon(Icons.add, color: MainColors.green, size: 30),
+                        child: const Icon(Icons.add, color: MainColors.green, size: 30),
                         onTap: () => loginProvider.incrementStat("physical"),
                       ),
                     ],
