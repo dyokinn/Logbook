@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:logbook/modules/screens/home_page.dart';
 import 'package:logbook/modules/widgets/app_bar_with_back.dart';
+import 'package:logbook/modules/widgets/mini_goal_preview.dart';
 import 'package:logbook/shared/providers/goals_provider.dart';
 import 'package:logbook/shared/providers/logs_provider.dart';
 import 'package:logbook/shared/theme/main_colors.dart';
@@ -208,14 +209,19 @@ class LogView extends StatelessWidget {
                   ],
                 ),
               ),
-              Text("Metas", style: TextStyles.heading,),
+              Padding(
+                padding: const EdgeInsets.only(top: 50.0),
+                child: Text("Metas", style: TextStyles.heading,),
+              ),
               goalsProvider.allGoals.isEmpty || goalsProvider.allGoals.where((goal) => goal!.created_at.isBefore(logsProvider.activeLog.created_at)).isEmpty
               ? Text("Sem metas no período deste registro!", style: TextStyles.text,)
               : ListView(
                 shrinkWrap: true,
                 children: goalsProvider.allGoals
-                .where((goal) => goal!.created_at.isBefore(logsProvider.activeLog.created_at))       
-                .map((filteredGoal) => Text(filteredGoal!.name, style: TextStyles.text,))
+                // Criado antes e encerrado depois
+                .where((goal) => goal!.created_at.isBefore(logsProvider.activeLog.created_at))   
+                .where((goal) => (goal!.completed_at?? logsProvider.activeLog.created_at.add(Duration(days: 1))).isAfter(logsProvider.activeLog.created_at))      
+                .map((filteredGoal) => MiniGoalPreview(goal: filteredGoal!))
                 .toList()
               )
             ],

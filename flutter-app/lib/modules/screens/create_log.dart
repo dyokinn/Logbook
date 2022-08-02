@@ -63,9 +63,9 @@ class _CreateLogState extends State<CreateLog> {
     try{
       print("BUSCA INICIADA");
       Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.best, 
+        desiredAccuracy: LocationAccuracy.medium, 
         forceAndroidLocationManager: true,
-        timeLimit: Duration(seconds: 5)
+        //timeLimit: Duration(seconds: 5)
       );
       print(position);
       return position;
