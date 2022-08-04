@@ -30,7 +30,7 @@ class CustomButton extends StatelessWidget {
       )
     : ElevatedButton(
       onPressed: onPressed, 
-      child: Center(child: Icon(icon, size: 35)),
+      child: Center(child: Icon(icon, size: 30)),
       style: ElevatedButton.styleFrom(
         fixedSize: size,
         primary: MainColors.green

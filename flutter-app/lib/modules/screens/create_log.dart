@@ -13,6 +13,7 @@ import 'package:logbook/shared/theme/main_colors.dart';
 import 'package:logbook/shared/theme/text_styles.dart';
 import 'package:provider/provider.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:filter_list/filter_list.dart';
 
 class CreateLog extends StatefulWidget {
   const CreateLog({ Key? key }) : super(key: key);
@@ -37,6 +38,59 @@ class _CreateLogState extends State<CreateLog> {
   double? social;
   double? professional;
   Position? currentPosition;
+  List<String> selectedCategList = [];
+  List<String> categList = ["Desabafo", "Reflexão", "Evento", "Mensagem Futura"];
+
+    void openFilterDialog() async {
+    await FilterListDialog.display<String>(
+      context,
+      listData: categList,
+      height: 320,
+      selectedListData: selectedCategList,
+      hideSearchField: true,
+      hideHeader: true,
+      choiceChipLabel: (categ) => categ,
+      validateSelectedItem: (list, val) => list!.contains(val),
+      allButtonText: "Todos",
+      applyButtonText: "Salvar",
+      resetButtonText: "Limpar",
+      themeData: FilterListThemeData.raw(
+        backgroundColor: MainColors.gray,
+        borderRadius: 20,
+        choiceChipTheme: ChoiceChipThemeData(),
+        headerTheme: HeaderThemeData(),
+        controlBarButtonTheme: ControlButtonBarThemeData.raw(backgroundColor: MainColors.green, controlButtonTheme: ControlButtonThemeData.light(context)),
+        wrapAlignment: WrapAlignment.start,
+        wrapCrossAxisAlignment: WrapCrossAlignment.start,
+        wrapSpacing: 15
+      ),
+      choiceChipBuilder: (context, item, isSelected) {
+        return Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: isSelected! ? MainColors.green : MainColors.black,
+              border: Border.all(color: isSelected ? MainColors.green : MainColors.black),
+          ),
+          child: Text(
+            item,
+            style: TextStyle(
+                color: Colors.white),
+          ),
+        );
+      }, 
+      onItemSearch: (categ, query) {
+        return categ.toLowerCase().contains(query.toLowerCase());
+      },
+      onApplyButtonClick: (list) {
+        setState(() {
+          selectedCategList = List.from(list!);
+        });
+        Navigator.pop(context);
+      },
+    );
+  }
 
   checkPermissions() async {
     var permission = await Geolocator.requestPermission();
@@ -153,7 +207,7 @@ class _CreateLogState extends State<CreateLog> {
                     ),
                 SizedBox(
                   height: size.height * 0.2,
-                  width: size.width * 0.8,
+                  width: size.width * 0.5,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -185,7 +239,43 @@ class _CreateLogState extends State<CreateLog> {
                   ),
                 ),
                 SizedBox(
-                  height: size.height * 0.08,
+                  height: size.height * 0.2,
+                  width: size.width * 0.5,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: MainColors.gray,
+                          borderRadius: BorderRadius.circular(8)
+                        ),
+                        height: size.height * 0.2,
+                        width: size.width * 0.54,
+                        child: selectedCategList.isEmpty
+                        ? Text("Sem categoria selecionada...", textAlign: TextAlign.center, style: TextStyles.text)
+                        : ListView.builder(
+                              itemBuilder: (context, index) {
+                                return Center(
+                                  child: ListTile(
+                                    title: Text("- " + selectedCategList[index], style: TextStyles.text,),
+                                  ),
+                                );
+                              },
+                              itemCount: selectedCategList.length,
+                        ),
+                      ),
+                      CustomButton(
+                        icon: Icons.add_to_photos_rounded,
+                        size: Size(size.width * 0.1, size.height * 0.05),
+                        onPressed: openFilterDialog,
+                      )
+                    ],
+                  )
+                      
+                ),
+                SizedBox(
+                  height: size.height * 0.15,
                   child: Center(
                     child: CustomButton(
                       icon: Icons.send,
