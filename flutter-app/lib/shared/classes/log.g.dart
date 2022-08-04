@@ -14,6 +14,8 @@ Log _$LogFromJson(Map<String, dynamic> json) => Log(
       isMemorable: json['isMemorable'] as bool,
       lat: (json['lat'] as num?)?.toDouble(),
       long: (json['long'] as num?)?.toDouble(),
+      categs:
+          (json['categs'] as List<dynamic>).map((e) => e as String).toList(),
       mental: json['mental'] as int,
       physical: json['physical'] as int,
       social: json['social'] as int,
@@ -28,6 +30,7 @@ Map<String, dynamic> _$LogToJson(Log instance) => <String, dynamic>{
       'isMemorable': instance.isMemorable,
       'lat': instance.lat,
       'long': instance.long,
+      'categs': instance.categs,
       'mental': instance.mental,
       'physical': instance.physical,
       'social': instance.social,

@@ -295,6 +295,7 @@ class _CreateLogState extends State<CreateLog> {
                             isMemorable: isMemorable,
                             lat: currentPosition?.latitude,
                             long: currentPosition?.longitude,
+                            categs: selectedCategList,
                             mental: loginProvider.mental, 
                             physical: loginProvider.mental, 
                             social: loginProvider.mental, 

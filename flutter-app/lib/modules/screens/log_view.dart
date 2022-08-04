@@ -161,6 +161,10 @@ class LogView extends StatelessWidget {
                 ],
               ),
               ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 20.0),
+                child: Text(logsProvider.activeLog.categs.join(" - "), style: TextStyles.heading,),
+              ),
               Text("Localização", style: TextStyles.heading,),
 
               logsProvider.activeLog.lat == null 
