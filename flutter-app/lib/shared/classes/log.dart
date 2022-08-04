@@ -12,6 +12,7 @@ class Log{
   bool isMemorable;
   double? lat;
   double? long;
+  List<String> categs;
   int mental;
   int physical;
   int social;
@@ -25,6 +26,7 @@ class Log{
     required this.isMemorable,
     this.lat,
     this.long,
+    required this.categs,
     required this.mental,
     required this.physical,
     required this.social,

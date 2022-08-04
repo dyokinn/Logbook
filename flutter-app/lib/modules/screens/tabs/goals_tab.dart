@@ -31,13 +31,19 @@ class GoalsTab extends StatelessWidget {
             margin: EdgeInsets.only(left: size.width * 0.05),
             child: Column(
               children: [
-                CheckboxListTile(
+                Theme(
+                  data: ThemeData(
+                    unselectedWidgetColor: MainColors.gray, // Your color
+                  ),
+                  child: CheckboxListTile(
                   value: goalsProvider.includeCompletedGoals,
+                  activeColor: MainColors.green,
                   onChanged: (value){
                     goalsProvider.setIncludeComplete(value!);
                   },
                   title: Text("Incluir metas já atingidas", style: TextStyles.text,),
                   
+                ),
                 ),
                 SizedBox(
                   height: size.height * 0.7,

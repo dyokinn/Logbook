@@ -28,7 +28,8 @@ dependencies:
   flutter_map: ^0.14.0
   step_progress_indicator: ^1.0.2
   rflutter_alert: ^2.0.4
-
+  filter_list: ^1.0.2
+  
 dev_dependencies:
   json_serializable: ^5.0.2
   build_runner: ^2.1.4
